@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id = "view_student_details_tree" model = "ir.ui.view">
+        <field name="name">student.details.tree</field>
+        <field name="model">student.details</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="age" widget="color_picker"/>
+                <field name="DOB" />
+                <field name="gender" widget="badge"/>
+                <field name="last_leave" widget="date"/>
+                <field name="priority" widget="priority"/>
+                <field name="attendence" widget="progressbar"/>
+                <field name="marks" widget="percentpie"/>
+            </tree>
+        </field>
+    </record>
+     <record id="view_student_details_search" model="ir.ui.view">
+        <field name="name">student.details.search</field>
+        <field name="model">student.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Gender" name="gender"
+                    context="{'group_by': 'gender'}"/>
+                <filter string="Lecture_attend" name="lecture_attend"
+                    domain="[('lecture_attend', '=',False)]"/>
+                <field name="name" />
+                <field name="age"/>
+                <field name="DOB"/>
+                <field name="lecture_attend"/>
+                <field name="remark"/>
+                <field name="marks"/>
+            </search>
+        </field>
+    </record>
+
+    <record id = "view_student_details_form" model = "ir.ui.view">
+        <field name="name">student.details.form</field>
+        <field name="model">student.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="State" widget="statusbar" clickable="True" options="{'clickable':1}" statusbar_visible="current_sprint,in_progress,done"/>
+                </header>
+                <sheet>
+                    <group name="group_top">
+                        <group name="group_left">
+                            <field name="name" />
+                            <field name="age" />
+                            <field name="DOB" />
+                            <field name="gender" widget="radio" />
+                            <field name="lecture_attend" widget="toggle" />
+                            <field name="last_leave" />
+                            <field name="priority" />
+                        </group>
+                        <group name="group_right">
+                            <field name="attendence"/>
+                            <field name="remark" />
+                            <field name="behaviour" />
+                            <field name="marks" />
+                            <field name="image" />
+                            <field name="enrollment_number" />
+                            <field name="teacher" />
+                        </group>
+                        <group name="group_bottom">
+                            <field name="subject" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_student_details"
+        model="ir.actions.act_window">
+        <field name="name">student.details</field>
+        <field name="res_model">student.details</field>
+        <field name="view_mode">search,tree,form</field>
+    </record>
+</odoo>

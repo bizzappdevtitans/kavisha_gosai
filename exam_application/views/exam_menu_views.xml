@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <menuitem
+        id="exam_menu"
+        name="Exam" />
+    <menuitem
+        id="student_details_menu"
+        name="student"
+        parent="exam_menu"
+        action="action_student_details"
+    />
+    <menuitem
+        id="subject_details_menu"
+        name="Subject"
+        parent="exam_menu"
+        action="action_subject_details"
+    />
+    <menuitem
+        id="teacher_details_menu"
+        name="Teacher"
+        parent="exam_menu"
+        action="action_teacher_details"
+    />
+</odoo>

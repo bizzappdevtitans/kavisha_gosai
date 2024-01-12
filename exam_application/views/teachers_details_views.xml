@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record id = "view_teacher_details_tree"
+        model = "ir.ui.view">
+        <field name="name">teachers.details.tree</field>
+        <field name="model">teachers.details</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="age" />
+                <field name="student_id" />
+                <field name="email" widget="email" />
+                <field name="enrollment_number" />
+                <field name="website" widget="url" />
+                <field name="phone" widget="phone" />
+            </tree>
+        </field>
+    </record>
+
+    <record id = "view_teacher_details_form"
+        model = "ir.ui.view">
+        <field name="name">teachers.details.form</field>
+        <field name="model">teachers.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" clickable="True" options="{'clickable':1}" statusbar_visible="current_sprint,in_progress,done"/>
+                </header>
+            <sheet>
+                <group name="group_top">
+
+                        <field name="name" />
+                        <field name="age" />
+                        <field name="website" widget="url" />
+                        <field name="phone" widget="phone" />
+                        <field name="subject_id"/>
+                        <field name="enrollment_number" />
+                        <field name="student_id" />
+                </group>
+            </sheet>
+        </form>
+        </field>
+    </record>
+     <record id="view_teacher_details_search" model="ir.ui.view">
+        <field name="name">teachers.details.search</field>
+        <field name="model">teachers.details</field>
+        <field name="arch" type="xml">
+            <search>
+                 <field name="name" />
+                    <field name="age" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_teacher_details"
+        model="ir.actions.act_window">
+        <field name="name">teachers.details</field>
+        <field name="res_model">teachers.details</field>
+        <field name="view_mode">tree,form,search</field>
+    </record>
+</odoo>

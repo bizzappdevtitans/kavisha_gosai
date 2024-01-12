@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record id = "view_subject_details_tree"
+        model = "ir.ui.view">
+        <field name="name">subject.details.tree</field>
+        <field name="model">subject.details</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="subject_name" />
+                <field name="student_id" />
+                <field name="date" widget="remaining_days" />
+            </tree>
+        </field>
+    </record>
+
+    <record id = "view_subject_details_form"
+        model = "ir.ui.view">
+        <field name="name">subject.details.form</field>
+        <field name="model">subject.details</field>
+        <field name="arch" type="xml">
+            <form>
+            <sheet>
+                <group name="group_top">
+                    <field name="subject_name" />
+                    <field name="teacher_id" />
+                    <field name="date" widget="remaining_days" />
+                    <field name="student_id" widget="many2many_tags" />
+                </group>
+            </sheet>
+        </form>
+        </field>
+    </record>
+     <record id="view_subject_details_search" model="ir.ui.view">
+        <field name="name">subject.details.search</field>
+        <field name="model">subject.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Subject" name="subject_name"
+                    context="{'group_by': 'subject_name'}"/>
+                 <field name="subject_name" />
+                 <field name="student_id" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_subject_details"
+        model="ir.actions.act_window">
+        <field name="name">subject.details</field>
+        <field name="res_model">subject.details</field>
+        <field name="view_mode">tree,form,search</field>
+    </record>
+</odoo>
