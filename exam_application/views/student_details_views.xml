@@ -24,7 +24,7 @@
                 <filter string="Gender" name="gender"
                     context="{'group_by': 'gender'}"/>
                 <filter string="Lecture_attend" name="lecture_attend"
-                    domain="[('lecture_attend', '=',False)]"/>
+                    domain="[('lecture_attend', '=',False),('marks','>=',75)]"/>
                 <field name="name" />
                 <field name="age"/>
                 <field name="DOB"/>
@@ -41,7 +41,15 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="State" widget="statusbar" clickable="True" options="{'clickable':1}" statusbar_visible="current_sprint,in_progress,done"/>
+                    <button name="first_year" class="oe_highlight" string="1st Year"
+                    type="object" help="Move Student to 1st Year state"/>
+                    <button name="second_year" class="oe_highlight" string="2nd Year"
+                    type="object" help="Move Student to 2nd Year state"/>
+                    <button name="final_year" class="oe_highlight"  string="Final Year"
+                    type="object" help="Move Student to Final Year state"/>
+                    <button name="done" class="oe_highlight" string="Graduate"
+                    type="object" help="Move Student to Graduate state"/>
+                    <field name="State" widget="statusbar" statusbar_visible="1st_year,2nd_year,final_year,done"/>
                 </header>
                 <sheet>
                     <group name="group_top">

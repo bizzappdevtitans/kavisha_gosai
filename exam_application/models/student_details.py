@@ -15,24 +15,24 @@ class StudentDetails(models.Model):
         "Last Leave On", default=lambda self: fields.Datetime.now()
     )
     priority = fields.Selection(
-        [("0", "Normal"), ("1", "Good"), ("2", "Very Good"), ("3", "Excellent")],
+        [("1", "Normal"), ("2", "Good"), ("3", "Very Good"), ("4", "Excellent")],
         "Appreciation",
-        default="0",
+        default="1",
     )
     attendence = fields.Float(string="Attendance")
     remark = fields.Text(string="Remark")
     behaviour = fields.Html(string="Behaviour", help="StudentBehaviour")
     marks = fields.Float(string="Marks")
     image = fields.Image("Image")
-    enrollment_number = fields.Integer("Teacher ID" )
+    enrollment_number = fields.Integer("Teacher ID")
     teacher = fields.Many2one(comodel_name="teachers.details", string="Teacher Name")
     subject = fields.Many2many("subject.details")
     State = fields.Selection(
         [
-            ("current_sprint", "Current Sprint"),
-            ("in_progress", "In Progress"),
-            ("cancel", "Cancelled"),
-            ("done", "Done"),
+            ("1st_year", "1st Year"),
+            ("2nd_year", "2nd Year"),
+            ("final_year", "Final Year"),
+            ("done", "Graduate"),
         ],
         string="Status",
         default="current_sprint",
@@ -53,3 +53,15 @@ class StudentDetails(models.Model):
     @api.onchange("teacher")
     def onchange_student(self):
         self.enrollment_number = self.teacher.enrollment_number
+
+    def first_year(self):
+        self.write({"State": "1st_year"})
+
+    def second_year(self):
+        self.write({"State": "2nd_year"})
+
+    def final_year(self):
+        self.write({"State": "final_year"})
+
+    def done(self):
+        self.write({"State": "done"})

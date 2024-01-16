@@ -7,5 +7,7 @@ class SubjectDetails(models.Model):
 
     subject_name = fields.Char(string="SubjectName")
     student_id = fields.Many2many(comodel_name="student.details")
-    teacher_id = fields.Many2one("teachers.details","Teacher")
+    teacher_id = fields.Many2one("teachers.details", "Teacher", ondelete="cascade")
     date = fields.Date(string="ExamDate")
+
+
