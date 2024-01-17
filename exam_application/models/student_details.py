@@ -22,7 +22,9 @@ class StudentDetails(models.Model):
     attendence = fields.Float(string="Attendance")
     remark = fields.Text(string="Remark")
     behaviour = fields.Html(string="Behaviour", help="StudentBehaviour")
-    marks = fields.Float(string="Marks")
+    marks1 = fields.Integer(string="Maths Marks")
+    marks2 = fields.Integer(string="Physics Marks")
+    total_marks = fields.Float(string="Total Marks" ,readonly=True)
     image = fields.Image("Image")
     enrollment_number = fields.Integer("Teacher ID")
     teacher = fields.Many2one(comodel_name="teachers.details", string="Teacher Name")
@@ -36,6 +38,9 @@ class StudentDetails(models.Model):
         ],
         string="Status",
         default="current_sprint",
+    )
+    subject_count = fields.Integer(
+        string="Subject Count", compute="compute_subject_count"
     )
 
     _sql_constraints = [
@@ -65,3 +70,24 @@ class StudentDetails(models.Model):
 
     def done(self):
         self.write({"State": "done"})
+
+    def compute_subject_count(self):
+        for record in self:
+            subject_count = self.env["subject.details"].search_count(
+                [("student_id", "=", record.id)]
+            )
+            record.subject_count = subject_count
+
+    def action_open_subject_details(self):
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Subjects",
+            "res_model": "subject.details",
+            "domain": [("student_id", "=", self.id)],
+            "view_mode": "tree,form",
+            "target": "current",
+        }
+
+    def add(self):
+        self.total_marks = self.marks1 + self.marks2
+        return True

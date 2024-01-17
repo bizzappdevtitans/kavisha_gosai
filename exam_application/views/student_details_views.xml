@@ -12,7 +12,7 @@
                 <field name="last_leave" widget="date"/>
                 <field name="priority" widget="priority"/>
                 <field name="attendence" widget="progressbar"/>
-                <field name="marks" widget="percentpie"/>
+                <field name="total_marks" widget="percentpie"/>
             </tree>
         </field>
     </record>
@@ -24,13 +24,13 @@
                 <filter string="Gender" name="gender"
                     context="{'group_by': 'gender'}"/>
                 <filter string="Lecture_attend" name="lecture_attend"
-                    domain="[('lecture_attend', '=',False),('marks','>=',75)]"/>
+                    domain="[('lecture_attend', '=',False),('total_marks','>=',75)]"/>
                 <field name="name" />
                 <field name="age"/>
                 <field name="DOB"/>
                 <field name="lecture_attend"/>
                 <field name="remark"/>
-                <field name="marks"/>
+                <field name="total_marks"/>
             </search>
         </field>
     </record>
@@ -52,6 +52,14 @@
                     <field name="State" widget="statusbar" statusbar_visible="1st_year,2nd_year,final_year,done"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    <button name="action_open_subject_details" type="object" class="oe_stat_button" icon="fa-regular fa-book">
+                        <div class="o_stat_info">
+                            <field name="subject_count" class="o_stat_value"/>
+                            <span class="o_stat_text">Subject</span>
+                        </div>
+                    </button>
+                </div>
                     <group name="group_top">
                         <group name="group_left">
                             <field name="name" />
@@ -66,7 +74,10 @@
                             <field name="attendence"/>
                             <field name="remark" />
                             <field name="behaviour" />
-                            <field name="marks" />
+                            <field name="marks1" />
+                            <field name="marks2" />
+                            <button name="add" string="Total Marks" type="object" />
+                            <field name="total_marks" />
                             <field name="image" />
                             <field name="enrollment_number" />
                             <field name="teacher" />
