@@ -4,7 +4,7 @@
     "author": "BizzAppDev",
     "website": "https://bizzappdev.com",
     "version": "15.0.1.0.0",
-    "depends": ["base"],
+    "depends": ["base","mail"],
     "license": "LGPL-3",
     "application": True,
     "data": [

@@ -1,21 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <record model="ir.actions.server" id="update_last_leave">
+       <field name="name">Update Last Leave Date</field>
+       <field name="model_id" ref="model_student_details"/>
+       <field name="binding_model_id" ref="model_student_details"/>
+       <field name="state">code</field>
+       <field name="code">
+           action = records.update_last_leave()
+       </field>
+    </record>
+
+     <record id="view_student_details_kanban" model="ir.ui.view">
+        <field name="name">student.details.kanban</field>
+        <field name="model">student.details</field>
+        <field name="arch" type="xml">
+            <kanban class="o_res_partner_kanban" default_group_by="State">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanabn_details d-flex flex_column">
+                                <sheet>
+                                    <group>
+                                        <group>
+                                            <ul>
+                                                <li>
+                                                    <strong>
+                                                        Name : <field name="name"/>
+                                                    </strong>
+                                                </li>
+                                                <li>
+                                                    Gender : <field name="gender"/>
+                                                </li>
+                                                <li>
+                                                    Profile : <field name="image"
+                                                    widget="image" class="oe_avtar"
+                                                    options='{"size":[150,150]}'/>
+                                                </li>
+                                            </ul>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
     <record id = "view_student_details_tree" model = "ir.ui.view">
         <field name="name">student.details.tree</field>
         <field name="model">student.details</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree decoration-danger="total_marks &lt;= 100" decoration-success="total_marks &gt; 100" >
                 <field name="name" />
                 <field name="age" widget="color_picker"/>
                 <field name="DOB" />
                 <field name="gender" widget="badge"/>
-                <field name="last_leave" widget="date"/>
+                <field name="last_leave"/>
                 <field name="priority" widget="priority"/>
                 <field name="attendence" widget="progressbar"/>
                 <field name="total_marks" widget="percentpie"/>
             </tree>
         </field>
     </record>
+
      <record id="view_student_details_search" model="ir.ui.view">
         <field name="name">student.details.search</field>
         <field name="model">student.details</field>
@@ -26,12 +75,30 @@
                 <filter string="Lecture_attend" name="lecture_attend"
                     domain="[('lecture_attend', '=',False),('total_marks','>=',75)]"/>
                 <field name="name" />
-                <field name="age"/>
-                <field name="DOB"/>
-                <field name="lecture_attend"/>
-                <field name="remark"/>
-                <field name="total_marks"/>
             </search>
+        </field>
+    </record>
+
+    <record id="view_student_details_graph" model="ir.ui.view">
+        <field name="name">student.details.graph </field>
+        <field name="model">student.details</field>
+        <field name="arch" type="xml">
+            <graph string = "Students in which year" type="bar">
+                <field name="State" group="True"/>
+                <field name="name"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id = "view_student_details_pivot" model = "ir.ui.view">
+        <field name="name">student.details.pivot</field>
+        <field name="model">student.details</field>
+        <field name="arch" type="xml">
+            <pivot string="Ratio">
+                <field name="gender" type="col"/>
+                <field name="total_marks" type="measure"/>
+                <field name="teacher" type="row" />
+            </pivot>
         </field>
     </record>
 
@@ -52,40 +119,60 @@
                     <field name="State" widget="statusbar" statusbar_visible="1st_year,2nd_year,final_year,done"/>
                 </header>
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
-                    <button name="action_open_subject_details" type="object" class="oe_stat_button" icon="fa-regular fa-book">
-                        <div class="o_stat_info">
-                            <field name="subject_count" class="o_stat_value"/>
-                            <span class="o_stat_text">Subject</span>
-                        </div>
-                    </button>
-                </div>
-                    <group name="group_top">
-                        <group name="group_left">
-                            <field name="name" />
-                            <field name="age" />
-                            <field name="DOB" />
-                            <field name="gender" widget="radio" />
-                            <field name="lecture_attend" widget="toggle" />
-                            <field name="last_leave" />
-                            <field name="priority" />
-                        </group>
-                        <group name="group_right">
-                            <field name="attendence"/>
-                            <field name="remark" />
-                            <field name="behaviour" />
-                            <field name="marks1" />
-                            <field name="marks2" />
-                            <button name="add" string="Total Marks" type="object" />
-                            <field name="total_marks" />
-                            <field name="image" />
-                            <field name="enrollment_number" />
-                            <field name="teacher" />
-                        </group>
-                        <group name="group_bottom">
-                            <field name="subject" />
-                        </group>
-                    </group>
+                    <notebook>
+                        <page string="Student Profile">
+                            <div class="oe_button_box" name="button_box">
+                                <button name="action_open_subject_details" type="object" class="oe_stat_button" icon="fa-regular fa-book">
+                                    <div class="o_stat_info">
+                                        <field name="subject_count"
+                                        class="o_stat_value"/>
+                                        <span class="o_stat_text">Subject</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="image" class="oe_avtar" widget="image" options='{"size": [200, 200]}'/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="name" />
+                                    <field name="age" />
+                                    <field name="DOB" />
+                                    <field name="gender" widget="radio" />
+                                    <field name="lecture_attend"
+                                    widget="boolean_toggle" />
+                                </group>
+                                <group>
+                                    <field name="last_leave" />
+                                    <field name="priority" />
+                                    <field name="attendence"/>
+                                    <field name="remark" />
+                                    <field name="behaviour" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Result">
+                            <group>
+                                <field name="marks1" />
+                                <field name="marks2" />
+                                <button name="add" string="Total Marks" type="object" />
+                                <field name="total_marks" />
+                            </group>
+                        </page>
+                        <page string="Class Teacher">
+                            <group>
+                                <field name="enrollment_number" />
+                                <field name="teacher" />
+                            </group>
+                        </page>
+                        <page string="Subject Details">
+                            <group>
+                                <field name="subject" />
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -95,6 +182,6 @@
         model="ir.actions.act_window">
         <field name="name">student.details</field>
         <field name="res_model">student.details</field>
-        <field name="view_mode">search,tree,form</field>
+        <field name="view_mode">search,tree,kanban,graph,pivot,form</field>
     </record>
 </odoo>

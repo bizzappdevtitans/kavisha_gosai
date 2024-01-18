@@ -5,15 +5,14 @@ from datetime import date
 class StudentDetails(models.Model):
     _name = "student.details"
     _description = "Student Information"
+    _rec_name = "name"
 
     name = fields.Char(string="Name", required=True, size=15)
     age = fields.Integer(string="Age", compute="compute_age")
     DOB = fields.Date(string="DOB", required=True)
     gender = fields.Selection([("male", "Male"), ("female", "Female")], "Gender")
     lecture_attend = fields.Boolean("Attend Lectures", default=False)
-    last_leave = fields.Datetime(
-        "Last Leave On", default=lambda self: fields.Datetime.now()
-    )
+    last_leave = fields.Datetime("Last Leave On")
     priority = fields.Selection(
         [("1", "Normal"), ("2", "Good"), ("3", "Very Good"), ("4", "Excellent")],
         "Appreciation",
@@ -37,7 +36,7 @@ class StudentDetails(models.Model):
             ("done", "Graduate"),
         ],
         string="Status",
-        default="current_sprint",
+        default="1st_year",
     )
     subject_count = fields.Integer(
         string="Subject Count", compute="compute_subject_count"
@@ -91,3 +90,6 @@ class StudentDetails(models.Model):
     def add(self):
         self.total_marks = self.marks1 + self.marks2
         return True
+
+    def update_last_leave(self):
+        self.write({'last_leave':fields.Date.today()})

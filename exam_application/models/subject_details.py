@@ -4,6 +4,7 @@ from odoo import models, fields
 class SubjectDetails(models.Model):
     _name = "subject.details"
     _description = "Subject Information"
+    _rec_name = "subject_name"
 
     subject_name = fields.Char(string="SubjectName")
     student_id = fields.Many2many(comodel_name="student.details")
@@ -12,6 +13,7 @@ class SubjectDetails(models.Model):
     student_count = fields.Integer(
         string="Student Count", compute="compute_student_count"
     )
+    active = fields.Boolean(default=True)
 
     def compute_student_count(self):
         for record in self:
