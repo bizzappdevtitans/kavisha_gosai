@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+     <record id = "view_student_details_kanban" model = "ir.ui.view">
+        <field name="name">teachers.details.kanban</field>
+        <field name="model">teachers.details</field>
+        <field name="arch" type="xml">
+            <kanban class="o_res_partner_kanban" default_group_by="state">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{record.name.raw_value} oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanabn_details d-flex flex_column">
+                                <sheet>
+                                    <group name="group_top">
+                                        <group name="group_left">
+                                            <ul>
+                                                <li>
+                                                    <strong>
+                                                        Name :<field name="name"/>
+                                                    </strong>
+                                                </li>
+                                                <li>
+                                                   ID: <field name="enrollment_number"/>
+                                                </li>
+                                                <li>
+                                                    Contact Number :<field name="phone" widget="phone"/>
+                                                </li>
+                                            </ul>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id = "view_teacher_details_tree"
+        model = "ir.ui.view">
+        <field name="name">teachers.details.tree</field>
+        <field name="model">teachers.details</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="age" />
+                <field name="student_id" />
+                <field name="email" widget="email" />
+                <field name="enrollment_number" />
+                <field name="website" widget="url" />
+                <field name="phone" widget="phone" />
+            </tree>
+        </field>
+    </record>
+
+    <record id = "view_teacher_details_form"
+        model = "ir.ui.view">
+        <field name="name">teachers.details.form</field>
+        <field name="model">teachers.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" clickable="True" options="{'clickable':1}" statusbar_visible="current_sprint,
+                    in_progress,done"/>
+                </header>
+                <sheet>
+                    <notebook>
+                        <page string="Teacher Profile">
+                            <div class="oe_button_box" name="button_box">
+                                <button name="action_open_student_details" type="object" class="oe_stat_button" icon="fa-duotone fa-user">
+                                    <div class="o_stat_info">
+                                        <field name="student_count"
+                                        class="o_stat_value"/>
+                                        <span class="o_stat_text">Student</span>
+                                    </div>
+                                 </button>
+                            </div>
+                            <div class="oe_button_box" name="button_box">
+                                <button name="action_open_subjects_details"
+                                type="object" class="oe_stat_button" icon="fa-regular fa-book">
+                                    <div class="o_stat_info">
+                                        <field name="subjects_count"
+                                        class="o_stat_value"/>
+                                            <span class="o_stat_text">Subject</span>
+                                     </div>
+                                </button>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="name" />
+                                    <field name="age" />
+                                    <field name="website" widget="url" />
+                                </group>
+                                <group>
+                                    <field name="email"/>
+                                    <field name="phone" widget="phone" />
+                                    <field name="enrollment_number" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Subject Information">
+                            <group>
+                                <field name="subject_id"/>
+                            </group>
+                        </page>
+                        <page string="Student Information">
+                            <group>
+                                <field name="student_id" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+     <record id="view_teacher_details_search" model="ir.ui.view">
+        <field name="name">teachers.details.search</field>
+        <field name="model">teachers.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_teacher_details"
+        model="ir.actions.act_window">
+        <field name="name">teachers.details</field>
+        <field name="res_model">teachers.details</field>
+        <field name="view_mode">tree,kanban,form,search</field>
+    </record>
+
+</odoo>
