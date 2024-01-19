@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <menuitem
+        id="school_menu"
+        name="School" />
+
+    <menuitem
+        id="student_details_menu"
+        name="Student"
+        parent="school_menu"
+        action="action_student_details"
+    />
+</odoo>
