@@ -6,12 +6,24 @@
         <field name="model">student.details</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="first_name"/>
+                <field name="first_name" widget="badge"/>
                 <field name="age"/>
-                <field name="gender" widget="badge"/>
+                <field name="gender"/>
                 <field name="current_standard" />
                 <field name="priority" widget="priority"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="view_student_details_search" model="ir.ui.view">
+        <field name="name">student.details.search</field>
+        <field name="model">student.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Gender" name="gender"
+                    context="{'group_by': 'gender'}"/>
+                <field name="first_name"/>
+            </search>
         </field>
     </record>
 
@@ -23,35 +35,77 @@
                 <sheet>
                     <notebook>
                         <page string="Student Profile">
+                            <div class="oe_button_box" name="button_box">
+                                <button name="action_open_subject_details" type="object" class="oe_stat_button" icon="fa-regular fa-book">
+                                    <div class="o_stat_info">
+                                        <field name="subject_count"
+                                        class="o_stat_value"/>
+                                        <span class="o_stat_text">Subject</span>
+                                    </div>
+                                </button>
+                                <button name="action_open_teacher_details" type="object" class="oe_stat_button" icon="fa-regular fa-book">
+                                    <div class="o_stat_info">
+                                        <field name="teacher_name"
+                                        class="o_stat_value"/>
+                                        <span class="o_stat_text">ClassTeacher</span>
+                                    </div>
+                                </button>
+                            </div>
                             <group>
                                 <group>
-                                    <field name="image"/>
+                                    <field name="image" widget="image" class="oe_avtar"
+                                        options='{"size":[50,50]}'/>
                                     <field name="first_name"/>
                                     <field name="middle_name"/>
                                     <field name="last_name"/>
                                     <field name="address"/>
+                                    <field name="teacher_id"/>
                                 </group>
                                 <group>
                                     <field name="DOB"/>
                                     <field name="age"/>
                                     <field name="current_standard"/>
                                     <field name="gender"/>
-                                    <field name="priority"/>
+                                    <field name="priority" widget="priority"/>
                                     <field name="remark"/>
                                 </group>
                             </group>
                         </page>
                         <page string="Previous Academic">
                             <group>
-                                <field name="lat_year_standard"/>
-                                <field name="lat_year_marks"/>
+                                <group>
+                                    <field name="last_standard"/>
+                                </group>
+                                <group>
+                                    <field name="last_year_marks" widget="percentage"/>
+                                </group>
                             </group>
                         </page>
-                        <page>
+                        <page string="Emeregeny Contact
+                            Information">
                             <group>
-                                <field name="emergency_conatct_name"/>
-                                <field name="emergency_conatct_number"/>
-                                <field name="relation"/>
+                                <group>
+                                    <field name="emergency_conatct_name"/>
+                                    <field name="emergency_conatct_number"/>
+                                </group>
+                                <group>
+                                    <field name="relation"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Class Teacher">
+                            <group>
+                                <group>
+                                    <field name="teacher_id"/>
+                                </group>
+                                <group>
+                                    <field name="teacher_name"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Subject Information">
+                            <group>
+                                <field name="subject_id"/>
                             </group>
                         </page>
                     </notebook>

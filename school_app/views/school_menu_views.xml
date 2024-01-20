@@ -11,4 +11,26 @@
         parent="school_menu"
         action="action_student_details"
     />
+
+    <menuitem
+        id="teacher_details_menu"
+        name="Teacher"
+        parent="school_menu"
+        action="action_teacher_details"
+    />
+
+    <menuitem
+        id="subject_details_menu"
+        name="Subject"
+        parent="school_menu"
+        action="action_subject_details"
+    />
+
+    <menuitem
+        id="exam_details_menu"
+        name="Exam"
+        parent="school_menu"
+        action="action_exam_details"
+    />
+
 </odoo>

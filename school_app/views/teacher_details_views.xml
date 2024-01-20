@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record model="ir.actions.server" id="update_last_leave">
+       <field name="name">Update Last Leave Date</field>
+       <field name="model_id" ref="model_teacher_details"/>
+       <field name="binding_model_id" ref="model_teacher_details"/>
+       <field name="state">code</field>
+       <field name="code">
+           action = records.update_last_leave()
+       </field>
+    </record>
+
+    <record id="view_teachers_details_tree" model="ir.ui.view">
+        <field name="name">teacher.details.tree</field>
+        <field name="model">teacher.details</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ID"/>
+                <field name="name"/>
+                <field name="phone" widget="phone"/>
+                <field name="age"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_teachers_details_search" model="ir.ui.view">
+        <field name="name">teacher.details.search</field>
+        <field name="model">teacher.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Teacher Profile" name="state"
+                    context="{'group_by': 'state'}"/>
+                <filter string="Is Class Teacher" name="is_class_teacher"
+                    domain="[('is_class_teacher', '=',True)]"/>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_teachers_details_form" model="ir.ui.view">
+        <field name="name">teacher.details.form</field>
+        <field name="model">teacher.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="primary" class="oe_highlight" string="Primary"
+                        type="object" help="Move Teacher to Primary Section"/>
+                    <button name="secondary" class="oe_highlight" string="Secondary"
+                        type="object" help="Move Teacher to Secondary Section"/>
+                    <button name="higher_secondary" class="oe_highlight"
+                        string="Higher Secondary" type="object"
+                        help="Move Teacher to Higher Secondary Section"/>
+                    <field name="state" widget="statusbar" statusbar_visible=
+                        "primary,secondary,higher_secondary"/>
+                </header>
+                <sheet>
+                    <notebook>
+                        <page string="Teacher Information">
+                            <div class="oe_button_box" name="button_box">
+                                <button name="action_open_student_details" type="object" class="oe_stat_button" icon="fa-duotone fa-user">
+                                    <div class="o_stat_info">
+                                        <field name="student_count"
+                                        class="o_stat_value"/>
+                                        <span class="o_stat_text">Student</span>
+                                    </div>
+                                </button>
+                                <button name="action_open_subjects_details"
+                                type="object" class="oe_stat_button" icon="fa-regular fa-book">
+                                    <div class="o_stat_info">
+                                        <field name="subjects_count"
+                                        class="o_stat_value"/>
+                                            <span class="o_stat_text">Subject</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="ID"/>
+                                    <field name="name"/>
+                                    <field name="age"/>
+                                    <field name="gender"/>
+                                </group>
+                                <group>
+                                    <field name="phone" widget="phone"/>
+                                    <field name="email" widget="email"/>
+                                    <field name="is_class_teacher"
+                                        widget="boolean_toggle" />
+                                    <field name="last_leave"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Student Information">
+                            <group>
+                                <field name="student_id"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+   <record id="action_teacher_details"
+        model="ir.actions.act_window">
+        <field name="name">teacher.details</field>
+        <field name="res_model">teacher.details</field>
+        <field name="view_mode">tree,search,form</field>
+    </record>
+
+</odoo>
