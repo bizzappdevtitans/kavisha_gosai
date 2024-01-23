@@ -13,10 +13,12 @@ class SubjectDetails(models.Model):
     )
     students = fields.Many2many(
         comodel_name="student.details",
+        domain="[('current_standard', '=', standard)]"
     )
     student_count = fields.Integer(
         string="student Count", compute="compute_student_count"
     )
+    active = fields.Boolean(default=True)
 
     def compute_student_count(self):
         for record in self:
@@ -34,3 +36,14 @@ class SubjectDetails(models.Model):
             "view_mode": "tree,form",
             "target": "current",
         }
+
+    def action_open_teachers_details(self):
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Subject Teacher",
+            "res_model": "teacher.details",
+            "domain": [("name", "=", self.id)],
+            "view_mode": "tree,form",
+            "target": "current",
+        }
+

@@ -6,14 +6,16 @@
     "version": "15.0.1.0.0",
     "license": "LGPL-3",
     "application": True,
-    "installable":True,
+    "installable": True,
     "data": [
         "security/ir.model.access.csv",
         "views/student_details_views.xml",
+        "views/result_details_views.xml",
         "views/teacher_details_views.xml",
         "views/subject_details_views.xml",
         "views/exam_details_views.xml",
+        "views/event_details_views.xml",
         "views/school_menu_views.xml",
     ],
-    "depends":['base']
+    "depends": ["base"],
 }

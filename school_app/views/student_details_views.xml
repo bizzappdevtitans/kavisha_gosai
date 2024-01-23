@@ -5,12 +5,14 @@
         <field name="name">student.details.tree </field>
         <field name="model">student.details</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree decoration-danger="percentage &lt;= 35" decoration-success=
+                    "percentage &gt; 35">
                 <field name="first_name" widget="badge"/>
                 <field name="age"/>
                 <field name="gender"/>
                 <field name="current_standard" />
                 <field name="priority" widget="priority"/>
+                <field name="percentage" widget="percentpie"/>
             </tree>
         </field>
     </record>
@@ -22,7 +24,7 @@
             <search>
                 <filter string="Gender" name="gender"
                     context="{'group_by': 'gender'}"/>
-                <field name="first_name"/>
+            <field name="first_name"/>
             </search>
         </field>
     </record>
@@ -43,7 +45,7 @@
                                         <span class="o_stat_text">Subject</span>
                                     </div>
                                 </button>
-                                <button name="action_open_teacher_details" type="object" class="oe_stat_button" icon="fa-regular fa-book">
+                                <button name="action_open_teacher_details" type="object" class="oe_stat_button" icon="fa-duotone fa-user">
                                     <div class="o_stat_info">
                                         <field name="teacher_name"
                                         class="o_stat_value"/>
@@ -59,7 +61,7 @@
                                     <field name="middle_name"/>
                                     <field name="last_name"/>
                                     <field name="address"/>
-                                    <field name="teacher_id"/>
+                                    <field name="student_id"/>
                                 </group>
                                 <group>
                                     <field name="DOB"/>
@@ -108,6 +110,13 @@
                                 <field name="subject_id"/>
                             </group>
                         </page>
+                        <page string="Result">
+                            <group>
+                                <field name="result"/>
+                                <field name="total_marks"/>
+                                <field name="percentage"/>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
@@ -118,7 +127,7 @@
         model="ir.actions.act_window">
         <field name="name">student.details</field>
         <field name="res_model">student.details</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,search</field>
     </record>
 
 </odoo>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record id="view_result_details_tree" model="ir.ui.view">
+        <field name="name">result.details.tree</field>
+        <field name="model">result.details</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="student_name"/>
+                <field name="subject_name" widget="badge"/>
+                <field name="marks"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_result_details_search" model="ir.ui.view">
+        <field name="name">result.details.search</field>
+        <field name="model">result.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Exams" name="type_of_exam"
+                    context="{'group_by': 'type_of_exam'}"/>
+                <field name="student_name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_result_details_form" model="ir.ui.view">
+        <field name="name">result.details.form</field>
+        <field name="model">result.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="type_of_exam" widget="statusbar" clickable="True"
+                        options="{'clickable':1}" statusbar_visible="1st_mid,2nd_mid,final"/>
+                </header>
+                <sheet>
+                    <notebook>
+                        <page string="Result Details">
+                            <group>
+                                <group>
+                                    <field name="student_name"/>
+                                </group>
+                                <group>
+                                    <field name="subject_name"/>
+                                    <field name="marks"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_result_details"
+        model="ir.actions.act_window">
+        <field name="name">result.details</field>
+        <field name="res_model">result.details</field>
+        <field name="view_mode">tree,form,search</field>
+    </record>
+
+</odoo>

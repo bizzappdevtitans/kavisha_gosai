@@ -1,4 +1,5 @@
-from odoo import models, fields
+from odoo import models, fields , api
+from odoo.exceptions import ValidationError
 
 
 class TeacherDetails(models.Model):
@@ -30,6 +31,7 @@ class TeacherDetails(models.Model):
     subjects_count = fields.Integer(
         string="Subject Count", compute="compute_subjects_count"
     )
+    active = fields.Boolean(default=True)
 
     def update_last_leave(self):
         self.write({"last_leave": fields.Date.today()})
@@ -76,3 +78,10 @@ class TeacherDetails(models.Model):
             "view_mode": "tree,form",
             "target": "current",
         }
+
+    @api.constrains("phone")
+    def check_phone(self):
+        for record in self:
+            if record.phone and len(record.phone) != 10:
+                raise ValidationError("The phone number is not valid")
+        return True

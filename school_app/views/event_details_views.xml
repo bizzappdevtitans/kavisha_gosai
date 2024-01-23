@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record id="view_event_details_tree" model="ir.ui.view">
+        <field name="name">event.details.tree</field>
+        <field name="model">event.details</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="event_name" widget="badge"/>
+                <field name="standard"/>
+                <field name="type_of_event"/>
+                <field name="event_date" widget="remaining_days"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_event_details_search" model="ir.ui.view">
+        <field name="name">event.details.search</field>
+        <field name="model">event.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Exams" name="type_of_event"
+                    context="{'group_by': 'type_of_event'}"/>
+                <field name="event_name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id = "view_event_details_calendar"
+        model = "ir.ui.view">
+        <field name="name">event.details.calendar</field>
+        <field name="model">event.details</field>
+        <field name="arch" type="xml">
+            <calendar string="Event Date" date_start="event_date" color="event_name">
+                <field name="standard"/>
+                <field name="timing"/>
+                <field name="type_of_event"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_event_details_form" model="ir.ui.view">
+        <field name="name">event.details.form</field>
+        <field name="model">event.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="standard" widget="statusbar" clickable="True"
+                        options="{'clickable':1}" statusbar_visible="1_to_5,6_to_10,11_12"/>
+                </header>
+                <sheet>
+                    <notebook>
+                        <page string="Event Information">
+                            <group>
+                                <group>
+                                    <field name="event_name"/>
+                                    <field name="event_date"/>
+                                </group>
+                                <group>
+                                    <field name="type_of_event"/>
+                                    <field name="timing"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_event_details"
+        model="ir.actions.act_window">
+        <field name="name">event.details</field>
+        <field name="res_model">event.details</field>
+        <field name="view_mode">tree,calendar,form,search</field>
+    </record>
+
+</odoo>

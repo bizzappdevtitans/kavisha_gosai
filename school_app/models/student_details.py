@@ -12,6 +12,7 @@ class StudentDetails(models.Model):
     last_name = fields.Char(string="Last Name", required=True)
     address = fields.Text(string="Address")
     image = fields.Image(string="Profile")
+    student_id = fields.Integer(string="Student ID")
     DOB = fields.Date(string="DOB")
     age = fields.Integer(string="Age", readonly=True, compute="compute_age")
     gender = fields.Selection([("male", "Male"), ("female", "Female")], "Gender")
@@ -34,11 +35,15 @@ class StudentDetails(models.Model):
     )
     teacher_id = fields.Integer(string="ID")
     subject_id = fields.Many2many(
-        comodel_name="subject.details",
+        comodel_name="subject.details", domain="[('standard', '=', current_standard)]"
     )
     subject_count = fields.Integer(
         string="Subject Count", compute="compute_subject_count"
     )
+    result = fields.One2many("result.details", "student_name", "Result")
+    total_marks = fields.Float(string="Total Marks", compute="compute_total_marks")
+    percentage = fields.Float(string="Percentage",compute="compute_percentage")
+    active = fields.Boolean(default=True)
 
     def compute_age(self):
         for record in self:
@@ -70,11 +75,19 @@ class StudentDetails(models.Model):
         }
 
     def action_open_teacher_details(self):
-        return{
-            "type":"ir.actions.act_window",
-            "name":"Class Teacher",
-            "res_model":"is_class_teacher.details",
-            "domain":[("name","=",self.id)],
-            "view_mode":"tree,form",
-            "target":"current",
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Class Teacher",
+            "res_model": "teacher.details",
+            "domain": [("teacher_name", "=", 1)],
+            "view_mode": "tree,form",
+            "target": "current",
         }
+
+    def compute_total_marks(self):
+        for record in self:
+            record.total_marks = sum(line.marks for line in record.result)
+
+    def compute_percentage(self):
+        for record in self:
+            record.percentage = self.total_marks / len(self.result)

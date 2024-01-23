@@ -1,15 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <odoo>
+
     <record id="view_exam_details_tree" model="ir.ui.view">
         <field name="name">exam.details.tree</field>
         <field name="model">exam.details</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="subject_name"/>
+                <field name="subject_name" widget="badge"/>
                 <field name="type_of_exam"/>
-                <field name="date"/>
+                <field name="date" widget="remaining_days"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="view_exam_details_search" model="ir.ui.view">
+        <field name="name">exam.details.search</field>
+        <field name="model">exam.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Exams" name="type_of_exam"
+                    context="{'group_by': 'type_of_exam'}"/>
+                <field name="subject_name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id = "view_exam_details_calendar"
+        model = "ir.ui.view">
+        <field name="name">exam.details.calendar</field>
+        <field name="model">exam.details</field>
+        <field name="arch" type="xml">
+            <calendar string="Exam Date" date_start="date" color="subject_name">
+                <field name="standard"/>
+                <field name="teacher_id"/>
+            </calendar>
         </field>
     </record>
 
@@ -18,13 +43,22 @@
         <field name="model">exam.details</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <field name="type_of_exam" widget="statusbar" clickable="True"
+                        options="{'clickable':1}" statusbar_visible="1st_mid,2nd_mid,final"/>
+                </header>
                 <sheet>
                     <notebook>
                         <page string="Exam Details">
                             <group>
-                                <field name="subject_name"/>
-                                <field name="type_of_exam"/>
-                                <field name="date"/>
+                                <group>
+                                    <field name="subject_name"/>
+                                    <field name="date"/>
+                                </group>
+                                <group>
+                                    <field name="teacher_id"/>
+                                    <field name="standard"/>
+                                </group>
                             </group>
                         </page>
                     </notebook>
@@ -37,7 +71,7 @@
         model="ir.actions.act_window">
         <field name="name">exam.details</field>
         <field name="res_model">exam.details</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,calendar,search,form</field>
     </record>
 
 </odoo>
