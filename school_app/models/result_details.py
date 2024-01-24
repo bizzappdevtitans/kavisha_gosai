@@ -4,6 +4,7 @@ from odoo import fields, models
 class ResultDetails(models.Model):
     _name = "result.details"
     _description = "Result Details"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     type_of_exam = fields.Selection(
         [("1st_mid", "1st MID"), ("2nd_mid", "2nd MID"), ("final", "Final")],

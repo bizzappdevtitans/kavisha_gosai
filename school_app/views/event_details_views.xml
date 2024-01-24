@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <odoo>
+
     <record id="view_event_details_tree" model="ir.ui.view">
         <field name="name">event.details.tree</field>
         <field name="model">event.details</field>
@@ -19,7 +20,7 @@
         <field name="model">event.details</field>
         <field name="arch" type="xml">
             <search>
-                <filter string="Exams" name="type_of_event"
+                <filter string="EventType" name="type_of_event"
                     context="{'group_by': 'type_of_event'}"/>
                 <field name="event_name"/>
             </search>
@@ -33,6 +34,7 @@
         <field name="arch" type="xml">
             <calendar string="Event Date" date_start="event_date" color="event_name">
                 <field name="standard"/>
+                <field name="teacher" widget="many2many_tags"/>
                 <field name="timing"/>
                 <field name="type_of_event"/>
             </calendar>
@@ -55,6 +57,7 @@
                                 <group>
                                     <field name="event_name"/>
                                     <field name="event_date"/>
+                                    <field name="teacher" widget="many2many_tags"/>
                                 </group>
                                 <group>
                                     <field name="type_of_event"/>
@@ -64,13 +67,18 @@
                         </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
 
     <record id="action_event_details"
         model="ir.actions.act_window">
-        <field name="name">event.details</field>
+        <field name="name">Event</field>
         <field name="res_model">event.details</field>
         <field name="view_mode">tree,calendar,form,search</field>
     </record>

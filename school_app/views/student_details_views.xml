@@ -6,7 +6,7 @@
         <field name="model">student.details</field>
         <field name="arch" type="xml">
             <tree decoration-danger="percentage &lt;= 35" decoration-success=
-                    "percentage &gt; 35">
+                    "percentage &gt; 35" string="Student">
                 <field name="first_name" widget="badge"/>
                 <field name="age"/>
                 <field name="gender"/>
@@ -24,7 +24,8 @@
             <search>
                 <filter string="Gender" name="gender"
                     context="{'group_by': 'gender'}"/>
-            <field name="first_name"/>
+                <field name="first_name"/>
+                <field name="percentage"/>
             </search>
         </field>
     </record>
@@ -38,18 +39,18 @@
                     <notebook>
                         <page string="Student Profile">
                             <div class="oe_button_box" name="button_box">
-                                <button name="action_open_subject_details" type="object" class="oe_stat_button" icon="fa-regular fa-book">
+                                <button name="action_open_teacher_details" type="object" class="oe_stat_button" icon="fa-duotone fa-user">
+                                    <div class="o_stat_info">
+                                            <field name="teacher"
+                                            class="o_stat_value"/>
+                                            <span class="o_stat_text">ClassTeacher</span>
+                                    </div>
+                                </button>
+                                 <button name="action_open_subject_details" type="object" class="oe_stat_button" icon="fa-solid fa-book">
                                     <div class="o_stat_info">
                                         <field name="subject_count"
                                         class="o_stat_value"/>
-                                        <span class="o_stat_text">Subject</span>
-                                    </div>
-                                </button>
-                                <button name="action_open_teacher_details" type="object" class="oe_stat_button" icon="fa-duotone fa-user">
-                                    <div class="o_stat_info">
-                                        <field name="teacher_name"
-                                        class="o_stat_value"/>
-                                        <span class="o_stat_text">ClassTeacher</span>
+                                        <span class="o_stat_text">Subjects</span>
                                     </div>
                                 </button>
                             </div>
@@ -119,13 +120,18 @@
                         </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
 
     <record id="action_student_details"
         model="ir.actions.act_window">
-        <field name="name">student.details</field>
+        <field name="name">Student</field>
         <field name="res_model">student.details</field>
         <field name="view_mode">tree,form,search</field>
     </record>

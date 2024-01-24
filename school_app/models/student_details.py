@@ -6,6 +6,7 @@ class StudentDetails(models.Model):
     _name = "student.details"
     _description = "Student Details"
     _rec_name = "first_name"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     first_name = fields.Char(string="First Name", required=True)
     middle_name = fields.Char(string="Middle Name", required=True)
@@ -18,7 +19,7 @@ class StudentDetails(models.Model):
     gender = fields.Selection([("male", "Male"), ("female", "Female")], "Gender")
     current_standard = fields.Integer(string="Standard")
     last_year_marks = fields.Float(string="Percentage")
-    last_standard = fields.Integer(string="Standard")
+    last_standard = fields.Integer(string="standard")
     priority = fields.Selection(
         [("1", "Normal"), ("2", "Good"), ("3", "Very Good"), ("4", "Excellent")],
         "Appreciation",
@@ -30,20 +31,25 @@ class StudentDetails(models.Model):
     relation = fields.Char("Relation with child")
     teacher_name = fields.Many2one(
         comodel_name="teacher.details",
-        String="Teacher Name",
+        string="Teacher Name",
         domain="[('is_class_teacher', '=', True)]",
     )
-    teacher_id = fields.Integer(string="ID")
+    teacher_id = fields.Integer(string="Teacher ID")
     subject_id = fields.Many2many(
         comodel_name="subject.details", domain="[('standard', '=', current_standard)]"
     )
     subject_count = fields.Integer(
         string="Subject Count", compute="compute_subject_count"
     )
+    teacher = fields.Char(string="TeacherName", compute="compute_teacher_search")
     result = fields.One2many("result.details", "student_name", "Result")
     total_marks = fields.Float(string="Total Marks", compute="compute_total_marks")
-    percentage = fields.Float(string="Percentage",compute="compute_percentage")
+    percentage = fields.Float(string="Percentage(%)", compute="compute_percentage")
     active = fields.Boolean(default=True)
+
+    _sql_constraints = [
+        ("student_id", "UNIQUE (student_id)", "ID should be UNIQUE"),
+    ]
 
     def compute_age(self):
         for record in self:
@@ -64,23 +70,43 @@ class StudentDetails(models.Model):
             )
             record.subject_count = subject_count
 
+    def compute_teacher_search(self):
+        for record in self:
+            teacher = self.env["teacher.details"].search(
+                [("student_id", "=", record.id)]
+            )
+            record.teacher = teacher
+
     def action_open_subject_details(self):
-        return {
-            "type": "ir.actions.act_window",
-            "name": "Subjects",
-            "res_model": "subject.details",
-            "domain": [("students", "=", self.id)],
-            "view_mode": "tree,form",
-            "target": "current",
-        }
+        if self.subject_count > 1:
+            return {
+                "type": "ir.actions.act_window",
+                "name": "Subjects",
+                "res_model": "subject.details",
+                "domain": [("students", "=", self.id)],
+                "view_mode": "tree,form",
+                "target": "current",
+            }
+        else:
+            return {
+                "type": "ir.actions.act_window",
+                "name": "Subjects",
+                "res_model": "subject.details",
+                "domain": [("students", "=", self.id)],
+                "view_type": "form",
+                "view_mode": "form,tree",
+                "target": "current",
+            }
 
     def action_open_teacher_details(self):
         return {
             "type": "ir.actions.act_window",
             "name": "Class Teacher",
             "res_model": "teacher.details",
-            "domain": [("teacher_name", "=", 1)],
-            "view_mode": "tree,form",
+            "res_id":"ID",
+            "domain": [("student_id", "=", self.id)],
+            "view_mode": "form",
+            "view_type":"form",
             "target": "current",
         }
 

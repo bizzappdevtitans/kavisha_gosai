@@ -9,7 +9,7 @@
             <tree>
                 <field name="subject_name" widget="badge"/>
                 <field name="type_of_exam"/>
-                <field name="date" widget="remaining_days"/>
+                <field name="date" widget="daterange"/>
             </tree>
         </field>
     </record>
@@ -63,13 +63,18 @@
                         </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
 
     <record id="action_exam_details"
         model="ir.actions.act_window">
-        <field name="name">exam.details</field>
+        <field name="name">Exam</field>
         <field name="res_model">exam.details</field>
         <field name="view_mode">tree,calendar,search,form</field>
     </record>

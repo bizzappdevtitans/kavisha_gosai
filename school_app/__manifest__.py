@@ -17,5 +17,5 @@
         "views/event_details_views.xml",
         "views/school_menu_views.xml",
     ],
-    "depends": ["base"],
+    "depends": ["base", "mail"],
 }

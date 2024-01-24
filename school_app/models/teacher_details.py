@@ -1,4 +1,4 @@
-from odoo import models, fields , api
+from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 
@@ -6,12 +6,13 @@ class TeacherDetails(models.Model):
     _name = "teacher.details"
     _description = "Teacher Information"
     _rec_name = "name"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(string="Name", required=True)
     age = fields.Integer(string="Age")
     email = fields.Char(string="Email")
-    phone = fields.Integer(string="Contact Number")
-    ID = fields.Integer(string="ID")
+    phone = fields.Char(string="Contact Number")
+    ID = fields.Integer(string="Teacher ID")
     gender = fields.Selection([("male", "Male"), ("female", "Female")], "Gender")
     state = fields.Selection(
         [
@@ -25,6 +26,9 @@ class TeacherDetails(models.Model):
     is_class_teacher = fields.Boolean(string="Is Class Teacher")
     last_leave = fields.Datetime("Last Leave On")
     student_id = fields.One2many("student.details", "teacher_id", "Student Information")
+    subjects = fields.One2many(
+        "subject.details", "subject_teacher", "Subject Information"
+    )
     student_count = fields.Integer(
         string="Student count", compute="compute_student_count"
     )
@@ -32,6 +36,10 @@ class TeacherDetails(models.Model):
         string="Subject Count", compute="compute_subjects_count"
     )
     active = fields.Boolean(default=True)
+
+    _sql_constraints = [
+        ("ID", "UNIQUE (ID)", "ID should be UNIQUE"),
+    ]
 
     def update_last_leave(self):
         self.write({"last_leave": fields.Date.today()})
@@ -53,14 +61,25 @@ class TeacherDetails(models.Model):
             record.student_count = student_count
 
     def action_open_student_details(self):
-        return {
-            "type": "ir.actions.act_window",
-            "name": "Students",
-            "res_model": "student.details",
-            "domain": [("teacher_name", "=", self.id)],
-            "view_mode": "tree,form",
-            "target": "current",
-        }
+        if self.student_count > 1:
+            return {
+                "type": "ir.actions.act_window",
+                "name": "Students",
+                "res_model": "student.details",
+                "domain": [("teacher_name", "=", self.id)],
+                "view_mode": "tree,form",
+                "target": "current",
+            }
+        else:
+            return {
+                "type": "ir.actions.act_window",
+                "name": "Students",
+                "res_model": "student.details",
+                "domain": [("teacher_name", "=", self.id)],
+                "view_mode": "form",
+                "view_type": "form",
+                "target": "current",
+            }
 
     def compute_subjects_count(self):
         for record in self:
@@ -70,14 +89,25 @@ class TeacherDetails(models.Model):
             record.subjects_count = subjects_count
 
     def action_open_subjects_details(self):
-        return {
-            "type": "ir.actions.act_window",
-            "name": "Subjects",
-            "res_model": "subject.details",
-            "domain": [("subject_teacher", "=", self.id)],
-            "view_mode": "tree,form",
-            "target": "current",
-        }
+        if self.subjects_count > 1:
+            return {
+                "type": "ir.actions.act_window",
+                "name": "Subjects",
+                "res_model": "subject.details",
+                "domain": [("subject_teacher", "=", self.id)],
+                "view_mode": "tree,form",
+                "target": "current",
+            }
+        else:
+            return {
+                "type": "ir.actions.act_window",
+                "name": "Subjects",
+                "res_model": "subject.details",
+                "domain": [("subject_teacher", "=", self.id)],
+                "view_mode": "form",
+                "view_type": "form",
+                "target": "current",
+            }
 
     @api.constrains("phone")
     def check_phone(self):

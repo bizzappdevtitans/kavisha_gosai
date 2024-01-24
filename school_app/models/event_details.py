@@ -5,6 +5,7 @@ class EventDetails(models.Model):
     _name = "event.details"
     _description = "Event Details"
     _rec_name = "event_name"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     event_name = fields.Char(string="Event Name")
     standard = fields.Selection(
@@ -17,6 +18,6 @@ class EventDetails(models.Model):
         "Type Of Event",
     )
     timing = fields.Selection(
-        [("morning", "Morning"), ("evening", "Evening"), ("night", "Night")],
-        "Timing"
+        [("morning", "Morning"), ("evening", "Evening"), ("night", "Night")], "Timing"
     )
+    teacher = fields.Many2many(comodel_name="teacher.details")

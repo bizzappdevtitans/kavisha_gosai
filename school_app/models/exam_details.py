@@ -5,6 +5,7 @@ class ExamDetails(models.Model):
     _name = "exam.details"
     _description = "Exam Details"
     _rec_name = "subject_name"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     type_of_exam = fields.Selection(
         [("1st_mid", "1st MID"), ("2nd_mid", "2nd MID"), ("final", "Final")],

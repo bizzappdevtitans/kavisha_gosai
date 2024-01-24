@@ -52,11 +52,13 @@
         <field name="name">teacher.details.tree</field>
         <field name="model">teacher.details</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree decoration-it="state in ['primary', 'secondary']"
+                decoration-bf="state=='higher_secondary'">
                 <field name="name"/>
                 <field name="ID"/>
                 <field name="phone" widget="phone"/>
                 <field name="age"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -106,11 +108,11 @@
                     <notebook>
                         <page string="Teacher Information">
                             <div class="oe_button_box" name="button_box">
-                                <button name="action_open_student_details" type="object" class="oe_stat_button" icon="fa-duotone fa-user">
+                                <button name="action_open_student_details" type="object" class="oe_stat_button" icon="fa-duotone fa-users">
                                     <div class="o_stat_info">
                                         <field name="student_count"
                                         class="o_stat_value"/>
-                                        <span class="o_stat_text">Student</span>
+                                        <span class="o_stat_text">Students</span>
                                     </div>
                                 </button>
                                 <button name="action_open_subjects_details"
@@ -118,7 +120,7 @@
                                     <div class="o_stat_info">
                                         <field name="subjects_count"
                                         class="o_stat_value"/>
-                                            <span class="o_stat_text">Subject</span>
+                                            <span class="o_stat_text">Subjects</span>
                                     </div>
                                 </button>
                             </div>
@@ -143,15 +145,25 @@
                                 <field name="student_id"/>
                             </group>
                         </page>
+                        <page string="Subject Information">
+                            <group>
+                                <field name="subjects"/>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
 
    <record id="action_teacher_details"
         model="ir.actions.act_window">
-        <field name="name">teacher.details</field>
+        <field name="name">Teacher</field>
         <field name="res_model">teacher.details</field>
         <field name="view_mode">kanban,tree,search,graph,form</field>
     </record>

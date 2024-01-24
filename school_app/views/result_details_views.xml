@@ -49,13 +49,18 @@
                         </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
 
     <record id="action_result_details"
         model="ir.actions.act_window">
-        <field name="name">result.details</field>
+        <field name="name">Result</field>
         <field name="res_model">result.details</field>
         <field name="view_mode">tree,form,search</field>
     </record>
