@@ -7,9 +7,10 @@
         <field name="model">exam.details</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="subject_name" widget="badge"/>
-                <field name="type_of_exam"/>
-                <field name="date" widget="daterange"/>
+                <field name="subject_name" widget="badge" optional="show"/>
+                <field name="type_of_exam" optional="show"/>
+                <field name="date" widget="daterange" optional="show"/>
+                <field name="teacher_id" optional="hide"/>
             </tree>
         </field>
     </record>
@@ -21,7 +22,10 @@
             <search>
                 <filter string="Exams" name="type_of_exam"
                     context="{'group_by': 'type_of_exam'}"/>
-                <field name="subject_name"/>
+                <searchpanel>
+                    <field name="subject_name" select="multi"/>
+                    <field name="teacher_id"/>
+                </searchpanel>
             </search>
         </field>
     </record>
@@ -50,6 +54,13 @@
                 <sheet>
                     <notebook>
                         <page string="Exam Details">
+                            <div class="oe_title" name="exam_title">
+                                <h2> <field name="subject_name"
+                                    style="margin-right:10px;"/>
+                                    <field name="date"/>
+                                </h2>
+                            </div>
+
                             <group>
                                 <group>
                                     <field name="subject_name"/>

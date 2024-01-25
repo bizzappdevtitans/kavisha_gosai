@@ -7,10 +7,11 @@
         <field name="model">event.details</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="event_name" widget="badge"/>
-                <field name="standard"/>
-                <field name="type_of_event"/>
-                <field name="event_date" widget="remaining_days"/>
+                <field name="event_name" widget="badge" optional="show"/>
+                <field name="standard" optional="show"/>
+                <field name="type_of_event" optional="show"/>
+                <field name="event_date" widget="remaining_days" optional="show"/>
+                <field name="teacher" optional="hide"/>
             </tree>
         </field>
     </record>
@@ -22,7 +23,7 @@
             <search>
                 <filter string="EventType" name="type_of_event"
                     context="{'group_by': 'type_of_event'}"/>
-                <field name="event_name"/>
+                    <field name="event_name"/>
             </search>
         </field>
     </record>
@@ -53,6 +54,11 @@
                 <sheet>
                     <notebook>
                         <page string="Event Information">
+                            <div class="oe_title" name="event_title">
+                                <h2><field name="event_name" style="margin-right:10px;"/>
+                                    <field name="event_date"/>
+                                </h2>
+                            </div>
                             <group>
                                 <group>
                                     <field name="event_name"/>

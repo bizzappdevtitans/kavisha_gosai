@@ -75,6 +75,7 @@ class TeacherDetails(models.Model):
                 "type": "ir.actions.act_window",
                 "name": "Students",
                 "res_model": "student.details",
+                "res_id":self.student_id.id,
                 "domain": [("teacher_name", "=", self.id)],
                 "view_mode": "form",
                 "view_type": "form",
@@ -103,6 +104,7 @@ class TeacherDetails(models.Model):
                 "type": "ir.actions.act_window",
                 "name": "Subjects",
                 "res_model": "subject.details",
+                "res_id": self.subjects.id,
                 "domain": [("subject_teacher", "=", self.id)],
                 "view_mode": "form",
                 "view_type": "form",
@@ -112,6 +114,6 @@ class TeacherDetails(models.Model):
     @api.constrains("phone")
     def check_phone(self):
         for record in self:
-            if record.phone and len(record.phone) != 10:
+            if not len(record.phone) == 10:
                 raise ValidationError("The phone number is not valid")
         return True

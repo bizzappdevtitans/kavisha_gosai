@@ -6,9 +6,9 @@
         <field name="model">subject.details</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name" widget="badge"/>
-                <field name="standard"/>
-                <field name="subject_teacher"/>
+                <field name="name" widget="badge" optional="show"/>
+                <field name="standard" optional="hide"/>
+                <field name="subject_teacher" optional="show"/>
             </tree>
         </field>
     </record>
@@ -34,20 +34,23 @@
                     <notebook>
                         <page string="Subject Information">
                             <div class="oe_button_box" name="button_box">
-                                <button name="action_open_teachers_details" type="object" class="oe_stat_button" icon="fa-solid fa-user">
+                                <button name="action_open_teacher_details" type="object" class="oe_stat_button" icon="fa-solid fa-user" attrs="{'invisible': [ ('teacher_count', '=', 0)]}">
                                     <div class="o_stat_info">
-                                        <field name="teacher"
+                                        <field name="teacher_count"
                                         class="o_stat_value"/>
                                         <span class="o_stat_text">SubjectTeacher</span>
                                     </div>
                                 </button>
-                                 <button name="action_open_student_details" type="object" class="oe_stat_button" icon="fa-regular fa-users">
+                                 <button name="action_open_student_details" type="object" class="oe_stat_button" icon="fa-regular fa-users" attrs="{'invisible': [ ('student_count', '=', 0)]}">
                                     <div class="o_stat_info">
                                         <field name="student_count"
                                         class="o_stat_value"/>
                                         <span class="o_stat_text">Students</span>
                                     </div>
                                 </button>
+                            </div>
+                            <div class="oe_title" name="subject_title">
+                                <h2><field name="name"/></h2>
                             </div>
                             <group>
                                 <field name="name"/>

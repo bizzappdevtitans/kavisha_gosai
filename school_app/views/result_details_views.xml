@@ -6,9 +6,10 @@
         <field name="model">result.details</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="student_name"/>
-                <field name="subject_name" widget="badge"/>
-                <field name="marks"/>
+                <field name="student_name" optional="show"/>
+                <field name="subject_name" widget="badge" optional="show"/>
+                <field name="marks" optional="show"/>
+                <field name="student_name" optional="hide"/>
             </tree>
         </field>
     </record>

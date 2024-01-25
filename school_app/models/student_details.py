@@ -41,12 +41,13 @@ class StudentDetails(models.Model):
     subject_count = fields.Integer(
         string="Subject Count", compute="compute_subject_count"
     )
-    teacher = fields.Char(string="TeacherName", compute="compute_teacher_search")
     result = fields.One2many("result.details", "student_name", "Result")
     total_marks = fields.Float(string="Total Marks", compute="compute_total_marks")
     percentage = fields.Float(string="Percentage(%)", compute="compute_percentage")
     active = fields.Boolean(default=True)
-
+    teacher_count = fields.Integer(
+        string="Teacher Count", compute="compute_teacher_count"
+    )
     _sql_constraints = [
         ("student_id", "UNIQUE (student_id)", "ID should be UNIQUE"),
     ]
@@ -70,12 +71,12 @@ class StudentDetails(models.Model):
             )
             record.subject_count = subject_count
 
-    def compute_teacher_search(self):
+    def compute_teacher_count(self):
         for record in self:
-            teacher = self.env["teacher.details"].search(
+            teacher_count = self.env["teacher.details"].search_count(
                 [("student_id", "=", record.id)]
             )
-            record.teacher = teacher
+            record.teacher_count = teacher_count
 
     def action_open_subject_details(self):
         if self.subject_count > 1:
@@ -92,23 +93,34 @@ class StudentDetails(models.Model):
                 "type": "ir.actions.act_window",
                 "name": "Subjects",
                 "res_model": "subject.details",
+                "res_id": self.subject_id.id,
                 "domain": [("students", "=", self.id)],
                 "view_type": "form",
-                "view_mode": "form,tree",
+                "view_mode": "form",
                 "target": "current",
             }
 
     def action_open_teacher_details(self):
-        return {
-            "type": "ir.actions.act_window",
-            "name": "Class Teacher",
-            "res_model": "teacher.details",
-            "res_id":"ID",
-            "domain": [("student_id", "=", self.id)],
-            "view_mode": "form",
-            "view_type":"form",
-            "target": "current",
-        }
+        if self.teacher_count > 1:
+            return {
+                "type": "ir.actions.act_window",
+                "name": "Class Teacher",
+                "res_model": "teacher.details",
+                "domain": [("student_id", "=", self.id)],
+                "view_mode": "tree,form",
+                "target": "current",
+            }
+        else:
+            return {
+                "type": "ir.actions.act_window",
+                "name": "Class Teacher",
+                "res_model": "teacher.details",
+                "res_id": self.teacher_name.id,
+                "domain": [("student_id", "=", self.id)],
+                "view_type": "form",
+                "view_mode": "form",
+                "target": "current",
+            }
 
     def compute_total_marks(self):
         for record in self:

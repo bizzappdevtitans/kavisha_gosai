@@ -7,12 +7,13 @@
         <field name="arch" type="xml">
             <tree decoration-danger="percentage &lt;= 35" decoration-success=
                     "percentage &gt; 35" string="Student">
-                <field name="first_name" widget="badge"/>
-                <field name="age"/>
-                <field name="gender"/>
-                <field name="current_standard" />
-                <field name="priority" widget="priority"/>
-                <field name="percentage" widget="percentpie"/>
+                <field name="first_name" widget="badge" optional="show"/>
+                <field name="age" optional="show"/>
+                <field name="gender" optional="show"/>
+                <field name="current_standard" optional="show"/>
+                <field name="priority" widget="priority" optional="show"/>
+                <field name="percentage" widget="percentpie" optional="show"/>
+                <field name="teacher_name" optional="hide"/>
             </tree>
         </field>
     </record>
@@ -39,20 +40,24 @@
                     <notebook>
                         <page string="Student Profile">
                             <div class="oe_button_box" name="button_box">
-                                <button name="action_open_teacher_details" type="object" class="oe_stat_button" icon="fa-duotone fa-user">
+                                <button name="action_open_teacher_details" type="object" class="oe_stat_button" icon="fa-duotone fa-user" attrs="{'invisible': [ ('teacher_count', '=', 0)]}">
                                     <div class="o_stat_info">
-                                            <field name="teacher"
+                                            <field name="teacher_count"
                                             class="o_stat_value"/>
                                             <span class="o_stat_text">ClassTeacher</span>
                                     </div>
                                 </button>
-                                 <button name="action_open_subject_details" type="object" class="oe_stat_button" icon="fa-solid fa-book">
+                                 <button name="action_open_subject_details" type="object" class="oe_stat_button" icon="fa-solid fa-book" attrs="{'invisible': [ ('subject_count', '=', 0)]}">
                                     <div class="o_stat_info">
                                         <field name="subject_count"
                                         class="o_stat_value"/>
                                         <span class="o_stat_text">Subjects</span>
                                     </div>
                                 </button>
+                            </div>
+                            <div class="oe_title" name="student_title">
+                                <h2><field name="first_name" style="margin-right:10px;"/>
+                                    <field name="last_name"/></h2>
                             </div>
                             <group>
                                 <group>

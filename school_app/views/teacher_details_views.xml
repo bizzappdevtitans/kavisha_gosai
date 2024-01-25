@@ -54,11 +54,12 @@
         <field name="arch" type="xml">
             <tree decoration-it="state in ['primary', 'secondary']"
                 decoration-bf="state=='higher_secondary'">
-                <field name="name"/>
-                <field name="ID"/>
-                <field name="phone" widget="phone"/>
-                <field name="age"/>
-                <field name="state"/>
+                <field name="name" optional="show"/>
+                <field name="ID" optional="show"/>
+                <field name="phone" widget="phone" optional="show"/>
+                <field name="age" optional="show"/>
+                <field name="state" optional="show"/>
+                <field name="gender" optional="hide"/>
             </tree>
         </field>
     </record>
@@ -108,7 +109,7 @@
                     <notebook>
                         <page string="Teacher Information">
                             <div class="oe_button_box" name="button_box">
-                                <button name="action_open_student_details" type="object" class="oe_stat_button" icon="fa-duotone fa-users">
+                                <button name="action_open_student_details" type="object" class="oe_stat_button" icon="fa-duotone fa-users" attrs="{'invisible': [ ('student_count', '=', 0)]}">
                                     <div class="o_stat_info">
                                         <field name="student_count"
                                         class="o_stat_value"/>
@@ -116,13 +117,17 @@
                                     </div>
                                 </button>
                                 <button name="action_open_subjects_details"
-                                type="object" class="oe_stat_button" icon="fa-regular fa-book">
+                                type="object" class="oe_stat_button" icon="fa-regular fa-book" attrs="{'invisible':
+                                [ ('subjects_count', '=', 0)]}">
                                     <div class="o_stat_info">
                                         <field name="subjects_count"
                                         class="o_stat_value"/>
                                             <span class="o_stat_text">Subjects</span>
                                     </div>
                                 </button>
+                            </div>
+                            <div class="oe_title" name="teacher_title">
+                                <h2> <field name="name"/></h2>
                             </div>
                             <group>
                                 <group>
