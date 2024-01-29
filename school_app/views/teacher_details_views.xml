@@ -17,6 +17,7 @@
         <field name="model">teacher.details</field>
         <field name="arch" type="xml">
             <kanban class="o_res_partner_kanban" default_group_by="state">
+                <field name="sequence" widget="handle" invisible="1"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_color_#{record.name.raw_value} oe_kanban_card oe_kanban_global_click">
@@ -59,6 +60,7 @@
                 <field name="phone" widget="phone" optional="show"/>
                 <field name="age" optional="show"/>
                 <field name="state" optional="show"/>
+                <field name="subjects" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 <field name="gender" optional="hide"/>
             </tree>
         </field>
@@ -69,7 +71,7 @@
         <field name="model">teacher.details</field>
         <field name="arch" type="xml">
             <graph string = "Teachers Profile" type="bar">
-                <field name="state" group="True"/>
+                <field name="state"/>
                 <field name="name"/>
             </graph>
         </field>
@@ -95,11 +97,11 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="primary" class="oe_highlight" string="Primary"
-                        type="object" help="Move Teacher to Primary Section"/>
-                    <button name="secondary" class="oe_highlight" string="Secondary"
+                    <button name="primary" string="Primary"
+                        type="object" help="Move Teacher to Primary Section" class="btn-dark"/>
+                    <button name="secondary" class="btn-info" string="Secondary"
                         type="object" help="Move Teacher to Secondary Section"/>
-                    <button name="higher_secondary" class="oe_highlight"
+                    <button name="higher_secondary" class="btn-success"
                         string="Higher Secondary" type="object"
                         help="Move Teacher to Higher Secondary Section"/>
                     <field name="state" widget="statusbar" statusbar_visible=
@@ -134,6 +136,7 @@
                                     <field name="ID"/>
                                     <field name="name"/>
                                     <field name="age"/>
+                                    <field name="color" widget="color_picker"/>
                                     <field name="gender"/>
                                 </group>
                                 <group>

@@ -42,12 +42,13 @@ class StudentDetails(models.Model):
         string="Subject Count", compute="compute_subject_count"
     )
     result = fields.One2many("result.details", "student_name", "Result")
-    total_marks = fields.Float(string="Total Marks", compute="compute_total_marks")
+    total_marks = fields.Float(string="Total Marks", readonly=True)
     percentage = fields.Float(string="Percentage(%)", compute="compute_percentage")
     active = fields.Boolean(default=True)
     teacher_count = fields.Integer(
         string="Teacher Count", compute="compute_teacher_count"
     )
+
     _sql_constraints = [
         ("student_id", "UNIQUE (student_id)", "ID should be UNIQUE"),
     ]

@@ -7,11 +7,12 @@
         <field name="model">event.details</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="event_name" widget="badge" optional="show"/>
+                <field name="sequence" widget="handle"/>
+                <field name="event_name" widget="badge"/>
                 <field name="standard" optional="show"/>
                 <field name="type_of_event" optional="show"/>
                 <field name="event_date" widget="remaining_days" optional="show"/>
-                <field name="teacher" optional="hide"/>
+                <field name="teacher" widget="many2many_tags" options="{'color_field': 'color'}"/>
             </tree>
         </field>
     </record>
@@ -23,7 +24,7 @@
             <search>
                 <filter string="EventType" name="type_of_event"
                     context="{'group_by': 'type_of_event'}"/>
-                    <field name="event_name"/>
+                <field name="event_name"/>
             </search>
         </field>
     </record>
@@ -84,7 +85,7 @@
 
     <record id="action_event_details"
         model="ir.actions.act_window">
-        <field name="name">Event</field>
+        <field name="name">event</field>
         <field name="res_model">event.details</field>
         <field name="view_mode">tree,calendar,form,search</field>
     </record>

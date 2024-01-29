@@ -14,6 +14,7 @@
                 <field name="priority" widget="priority" optional="show"/>
                 <field name="percentage" widget="percentpie" optional="show"/>
                 <field name="teacher_name" optional="hide"/>
+                <field name="result" widget="many2many_tags" options="{'color_field': 'color'}"/>
             </tree>
         </field>
     </record>
@@ -26,7 +27,10 @@
                 <filter string="Gender" name="gender"
                     context="{'group_by': 'gender'}"/>
                 <field name="first_name"/>
-                <field name="percentage"/>
+                <searchpanel>
+                    <field name="teacher_name" enable_counters="1"
+                        icon="fa-solid fa-user"/>
+                </searchpanel>
             </search>
         </field>
     </record>
@@ -119,6 +123,7 @@
                         <page string="Result">
                             <group>
                                 <field name="result"/>
+                                <button name="compute_total_marks" class="btn-primary" string="TotalMarks" type="object"/>
                                 <field name="total_marks"/>
                                 <field name="percentage"/>
                             </group>
@@ -138,7 +143,7 @@
         model="ir.actions.act_window">
         <field name="name">Student</field>
         <field name="res_model">student.details</field>
-        <field name="view_mode">tree,form,search</field>
+        <field name="view_mode">tree,graph,form,search</field>
     </record>
 
 </odoo>

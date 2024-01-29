@@ -18,4 +18,5 @@
         "views/school_menu_views.xml",
     ],
     "depends": ["base", "mail"],
+    "category": "Services/Narayana Guru",
 }

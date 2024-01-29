@@ -12,6 +12,7 @@ class EventDetails(models.Model):
         [("1_to_5", "1 to 5"), ("6_to_10", "6 to 10"), ("11_12", "11-12")],
         "Standard",
     )
+    sequence = fields.Integer("Sequence", default=0)
     event_date = fields.Date(string="Date of Event")
     type_of_event = fields.Selection(
         [("entertainment", "Entertainment"), ("educational", "Educational")],

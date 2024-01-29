@@ -23,8 +23,10 @@
                 <filter string="Exams" name="type_of_exam"
                     context="{'group_by': 'type_of_exam'}"/>
                 <searchpanel>
-                    <field name="subject_name" select="multi"/>
-                    <field name="teacher_id"/>
+                    <field name="subject_name" select="multi" enable_counters="1"
+                        icon="fa-solid fa-book"/>
+                    <field name="teacher_id" enable_counters="1"
+                        icon="fa-solid fa-user"/>
                 </searchpanel>
             </search>
         </field>

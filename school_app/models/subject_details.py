@@ -1,4 +1,5 @@
 from odoo import models, fields
+from random import randint
 
 
 class SubjectDetails(models.Model):
@@ -22,6 +23,11 @@ class SubjectDetails(models.Model):
         string="Teacher Count", compute="compute_teacher_count"
     )
     active = fields.Boolean(default=True)
+    color = fields.Integer(
+        string="Color Index",
+        default=lambda self: self._default_color(),
+        help="Tag color",
+    )
 
     def compute_student_count(self):
         for record in self:
@@ -36,7 +42,6 @@ class SubjectDetails(models.Model):
                 [("subjects", "=", record.id)]
             )
             record.teacher_count = teacher_count
-
 
     def action_open_student_details(self):
         if self.student_count > 1:
@@ -81,3 +86,6 @@ class SubjectDetails(models.Model):
                 "view_mode": "form",
                 "target": "current",
             }
+
+    def _default_color(self):
+        return randint(1, 11)

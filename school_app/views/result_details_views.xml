@@ -21,7 +21,12 @@
             <search>
                 <filter string="Exams" name="type_of_exam"
                     context="{'group_by': 'type_of_exam'}"/>
-                <field name="student_name"/>
+                <searchpanel>
+                    <field name="student_name" enable_counters="1"
+                        icon="fa-solid fa-users"/>
+                    <field name="subject_name" select="multi" enable_counters="1"
+                        icon="fa-solid fa-book"/>
+                </searchpanel>
             </search>
         </field>
     </record>
@@ -41,6 +46,7 @@
                             <group>
                                 <group>
                                     <field name="student_name"/>
+                                    <field name="color" widget="color_picker"/>
                                 </group>
                                 <group>
                                     <field name="subject_name"/>

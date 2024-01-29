@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+from random import randint
 
 
 class TeacherDetails(models.Model):
@@ -11,7 +12,7 @@ class TeacherDetails(models.Model):
     name = fields.Char(string="Name", required=True)
     age = fields.Integer(string="Age")
     email = fields.Char(string="Email")
-    phone = fields.Char(string="Contact Number")
+    phone = fields.Char(string="Contact Number", required=True)
     ID = fields.Integer(string="Teacher ID")
     gender = fields.Selection([("male", "Male"), ("female", "Female")], "Gender")
     state = fields.Selection(
@@ -36,6 +37,12 @@ class TeacherDetails(models.Model):
         string="Subject Count", compute="compute_subjects_count"
     )
     active = fields.Boolean(default=True)
+    color = fields.Integer(
+        string="Color Index",
+        default=lambda self: self._default_color(),
+        help="Tag color",
+    )
+    sequence = fields.Integer("Sequence", default=0)
 
     _sql_constraints = [
         ("ID", "UNIQUE (ID)", "ID should be UNIQUE"),
@@ -75,7 +82,7 @@ class TeacherDetails(models.Model):
                 "type": "ir.actions.act_window",
                 "name": "Students",
                 "res_model": "student.details",
-                "res_id":self.student_id.id,
+                "res_id": self.student_id.id,
                 "domain": [("teacher_name", "=", self.id)],
                 "view_mode": "form",
                 "view_type": "form",
@@ -117,3 +124,6 @@ class TeacherDetails(models.Model):
             if not len(record.phone) == 10:
                 raise ValidationError("The phone number is not valid")
         return True
+
+    def _default_color(self):
+        return randint(1, 11)
