@@ -42,8 +42,10 @@ class StudentDetails(models.Model):
         string="Subject Count", compute="compute_subject_count"
     )
     result = fields.One2many("result.details", "student_name", "Result")
-    total_marks = fields.Float(string="Total Marks", readonly=True)
-    percentage = fields.Float(string="Percentage(%)", compute="compute_percentage")
+    total_marks = fields.Float(string="Total Marks",compute="compute_total_marks")
+    percentage = fields.Float(
+        string="Percentage(%)", readonly=True, default=0
+    )
     active = fields.Boolean(default=True)
     teacher_count = fields.Integer(
         string="Teacher Count", compute="compute_teacher_count"

@@ -35,6 +35,17 @@
         </field>
     </record>
 
+    <record id="view_student_details_graph" model="ir.ui.view">
+        <field name="name">student.details.graph</field>
+        <field name="model">student.details</field>
+        <field name="arch" type="xml">
+            <graph>
+                <field name="first_name"/>
+                <field name="percentage" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
     <record id="view_student_details_form" model="ir.ui.view">
         <field name="name">student.details.form</field>
         <field name="model">student.details</field>
@@ -122,10 +133,14 @@
                         </page>
                         <page string="Result">
                             <group>
-                                <field name="result"/>
-                                <button name="compute_total_marks" class="btn-primary" string="TotalMarks" type="object"/>
-                                <field name="total_marks"/>
-                                <field name="percentage"/>
+                                <group>
+                                    <field name="result"/>
+                                </group>
+                                <group>
+                                    <field name="total_marks"/>
+                                    <button name="compute_percentage" class="btn-primary" string="Percentage" type="object"/>
+                                    <field name="percentage"/>
+                                </group>
                             </group>
                         </page>
                     </notebook>
