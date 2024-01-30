@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import fields, models, _, api
 
 
 class EventDetails(models.Model):
@@ -22,3 +22,15 @@ class EventDetails(models.Model):
         [("morning", "Morning"), ("evening", "Evening"), ("night", "Night")], "Timing"
     )
     teacher = fields.Many2many(comodel_name="teacher.details")
+    event_ref = fields.Char(
+        string="Event ID", required=True, readonly=True, default=lambda self: _("New")
+    )
+
+    @api.model
+    def create(self, values):
+        if values.get("event_ref", _("New")) == _("New"):
+            values["event_ref"] = self.env["ir.sequence"].next_by_code(
+                "event.details"
+            ) or _("New")
+        result = super(EventDetails, self).create(values)
+        return result

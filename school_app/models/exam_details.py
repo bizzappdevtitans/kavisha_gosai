@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, _, api
 
 
 class ExamDetails(models.Model):
@@ -19,3 +19,15 @@ class ExamDetails(models.Model):
         "Standard",
     )
     active = fields.Boolean(default=True)
+    exam_ref = fields.Char(
+        string="Exam ID", required=True, readonly=True, default=lambda self: _("New")
+    )
+
+    @api.model
+    def create(self, values):
+        if values.get("exam_ref", _("New")) == _("New"):
+            values["exam_ref"] = self.env["ir.sequence"].next_by_code(
+                "exam.details"
+            ) or _("New")
+        result = super(ExamDetails, self).create(values)
+        return result

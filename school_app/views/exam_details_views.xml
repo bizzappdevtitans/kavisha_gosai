@@ -7,6 +7,8 @@
         <field name="model">exam.details</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="exam_ref" string="ExamID" readonly="1"
+                    decoration-bf="1"/>
                 <field name="subject_name" widget="badge" optional="show"/>
                 <field name="type_of_exam" optional="show"/>
                 <field name="date" widget="daterange" optional="show"/>
@@ -57,9 +59,7 @@
                     <notebook>
                         <page string="Exam Details">
                             <div class="oe_title" name="exam_title">
-                                <h2> <field name="subject_name"
-                                    style="margin-right:10px;"/>
-                                    <field name="date"/>
+                                <h2> <field name="exam_ref"/>
                                 </h2>
                             </div>
 

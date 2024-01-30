@@ -6,7 +6,9 @@
         <field name="model">subject.details</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name" widget="badge" optional="show"/>
+                <field name="subject_ref" string="SubjectID" readonly="1"
+                    decoration-bf="1"/>
+                <field name="name" widget="badge" optional="show" string="SubjectName"/>
                 <field name="standard" optional="hide"/>
                 <field name="subject_teacher" optional="show"/>
             </tree>
@@ -54,7 +56,7 @@
                                 </button>
                             </div>
                             <div class="oe_title" name="subject_title">
-                                <h2><field name="name"/></h2>
+                                <h2><field name="subject_ref"/></h2>
                             </div>
                             <group>
                                 <field name="name"/>

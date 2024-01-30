@@ -7,6 +7,8 @@
         <field name="arch" type="xml">
             <tree decoration-danger="percentage &lt;= 35" decoration-success=
                     "percentage &gt; 35" string="Student">
+                <field name="student_ref" string="StudentID" readonly="1"
+                    decoration-bf="1"/>
                 <field name="first_name" widget="badge" optional="show"/>
                 <field name="age" optional="show"/>
                 <field name="gender" optional="show"/>
@@ -70,9 +72,9 @@
                                     </div>
                                 </button>
                             </div>
-                            <div class="oe_title" name="student_title">
-                                <h2><field name="first_name" style="margin-right:10px;"/>
-                                    <field name="last_name"/></h2>
+                            <div class="oe_title" name="exam_title">
+                                <h2> <field name="student_ref"/>
+                                </h2>
                             </div>
                             <group>
                                 <group>
@@ -82,7 +84,7 @@
                                     <field name="middle_name"/>
                                     <field name="last_name"/>
                                     <field name="address"/>
-                                    <field name="student_id"/>
+                                    <field name="students_id"/>
                                 </group>
                                 <group>
                                     <field name="DOB"/>
@@ -132,16 +134,35 @@
                             </group>
                         </page>
                         <page string="Result">
-                            <group>
-                                <group>
-                                    <field name="result"/>
-                                </group>
-                                <group>
-                                    <field name="total_marks"/>
-                                    <button name="compute_percentage" class="btn-primary" string="Percentage" type="object"/>
-                                    <field name="percentage"/>
-                                </group>
-                            </group>
+                            <notebook>
+                                <page>
+                                    <group>
+                                        <field name="result">
+                                            <tree>
+                                                <field name="result_ref"
+                                                    string="ResultID"/>
+                                                <field name="subject_name"
+                                                    widget="badge" />
+                                                <field name="marks"/>
+                                            </tree>
+                                            <form>
+                                                <group string="Student">
+                                                    <field name="student_name"/>
+                                                </group>
+                                                <group string="Result">
+                                                    <field name="subject_name"/>
+                                                    <field name="marks"/>
+                                                </group>
+                                            </form>
+                                        </field>
+                                    </group>
+                                    <group>
+                                        <field name="total_marks"/>
+                                        <button name="compute_percentage" class="btn-primary" string="Percentage" type="object"/>
+                                        <field name="percentage"/>
+                                    </group>
+                                </page>
+                            </notebook>
                         </page>
                     </notebook>
                 </sheet>

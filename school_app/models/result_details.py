@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import fields, models, _, api
 from random import randint
 
 
@@ -28,6 +28,18 @@ class ResultDetails(models.Model):
         default=lambda self: self._default_color(),
         help="Tag color",
     )
+    result_ref = fields.Char(
+        string="Result ID", required=True, readonly=True, default=lambda self: _("New")
+    )
+
+    @api.model
+    def create(self, values):
+        if values.get("result_ref", _("New")) == _("New"):
+            values["result_ref"] = self.env["ir.sequence"].next_by_code(
+                "result.details"
+            ) or _("New")
+        res = super(ResultDetails, self).create(values)
+        return res
 
     def _default_color(self):
         return randint(1, 11)

@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from datetime import date
 
 
@@ -13,7 +13,6 @@ class StudentDetails(models.Model):
     last_name = fields.Char(string="Last Name", required=True)
     address = fields.Text(string="Address")
     image = fields.Image(string="Profile")
-    student_id = fields.Integer(string="Student ID")
     DOB = fields.Date(string="DOB")
     age = fields.Integer(string="Age", readonly=True, compute="compute_age")
     gender = fields.Selection([("male", "Male"), ("female", "Female")], "Gender")
@@ -25,6 +24,7 @@ class StudentDetails(models.Model):
         "Appreciation",
         default="1",
     )
+    students_id = fields.Integer("Roll Number")
     remark = fields.Html(string="Remark")
     emergency_conatct_name = fields.Char("Name")
     emergency_conatct_number = fields.Integer("Number")
@@ -42,18 +42,26 @@ class StudentDetails(models.Model):
         string="Subject Count", compute="compute_subject_count"
     )
     result = fields.One2many("result.details", "student_name", "Result")
-    total_marks = fields.Float(string="Total Marks",compute="compute_total_marks")
-    percentage = fields.Float(
-        string="Percentage(%)", readonly=True, default=0
-    )
+    total_marks = fields.Float(string="Total Marks", compute="compute_total_marks")
+    percentage = fields.Float(string="Percentage(%)", readonly=True, default=0)
     active = fields.Boolean(default=True)
     teacher_count = fields.Integer(
         string="Teacher Count", compute="compute_teacher_count"
     )
+    student_ref = fields.Char(
+        string="GR Number", required=True, readonly=True, default=lambda self: _("New")
+    )
 
-    _sql_constraints = [
-        ("student_id", "UNIQUE (student_id)", "ID should be UNIQUE"),
-    ]
+    @api.model
+    def create(self, values):
+        if values.get("student_ref", _("New")) == _("New"):
+            values["student_ref"] = self.env["ir.sequence"].next_by_code(
+                "student.details"
+            ) or _("New")
+        result = super(StudentDetails, self).create(values)
+        return result
+
+    _sql_constraints = [("students_id", "UNIQUE (students_id)", "ID should unique")]
 
     def compute_age(self):
         for record in self:
@@ -64,8 +72,8 @@ class StudentDetails(models.Model):
                 record.age = 1
 
     @api.onchange("teacher_name")
-    def onchange_student(self):
-        self.teacher_id = self.teacher_name.ID
+    def onchange_teacher(self):
+        self.teacher_id = self.teacher_name.teachers_id
 
     def compute_subject_count(self):
         for record in self:

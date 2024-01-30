@@ -5,5 +5,7 @@ school_app.access_subject_details,access_subject_details,school_app.model_subjec
 school_app.access_exam_details,access_exam_details,school_app.model_exam_details,base.group_user,1,1,1,1
 school_app.access_result_details,access_result_details,school_app.model_result_details,base.group_user,1,1,1,1
 school_app.access_event_details,access_event_details,school_app.model_event_details,base.group_user,1,1,1,1
+school_app.access_principal_details,access_principal_details,school_app.model_principal_details,base.group_user,1,1,1,1
+
 
 

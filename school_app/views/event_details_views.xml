@@ -7,6 +7,8 @@
         <field name="model">event.details</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="event_ref" string="EventID" readonly="1"
+                    decoration-bf="1"/>
                 <field name="sequence" widget="handle"/>
                 <field name="event_name" widget="badge"/>
                 <field name="standard" optional="show"/>
@@ -43,6 +45,21 @@
         </field>
     </record>
 
+    <record id="view_event_details_activity" model="ir.ui.view">
+        <field name="name">details.event</field>
+        <field name="model">event.details</field>
+        <field name="arch" type="xml">
+           <activity string="Events">
+                <field name="teacher"/>
+                <templates>
+                    <div t-name="activity-box">
+                            <field name="event_name" display="full"/>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
     <record id="view_event_details_form" model="ir.ui.view">
         <field name="name">event.details.form</field>
         <field name="model">event.details</field>
@@ -56,8 +73,7 @@
                     <notebook>
                         <page string="Event Information">
                             <div class="oe_title" name="event_title">
-                                <h2><field name="event_name" style="margin-right:10px;"/>
-                                    <field name="event_date"/>
+                                <h2><field name="event_ref"/>
                                 </h2>
                             </div>
                             <group>
@@ -87,7 +103,8 @@
         model="ir.actions.act_window">
         <field name="name">event</field>
         <field name="res_model">event.details</field>
-        <field name="view_mode">tree,calendar,form,search</field>
+        <field name="view_mode">tree,calendar,activity,form,search</field>
     </record>
 
+    <menuitem id="activity_example_root" name="Activity view" sequence="10"></menuitem>
 </odoo>

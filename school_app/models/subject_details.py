@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, _, api
 from random import randint
 
 
@@ -28,6 +28,18 @@ class SubjectDetails(models.Model):
         default=lambda self: self._default_color(),
         help="Tag color",
     )
+    subject_ref = fields.Char(
+        string="Subject ID", required=True, readonly=True, default=lambda self: _("New")
+    )
+
+    @api.model
+    def create(self, values):
+        if values.get("subject_ref", _("New")) == _("New"):
+            values["subject_ref"] = self.env["ir.sequence"].next_by_code(
+                "subject.details"
+            ) or _("New")
+        result = super(SubjectDetails, self).create(values)
+        return result
 
     def compute_student_count(self):
         for record in self:

@@ -54,4 +54,11 @@
         action="action_event_details"
     />
 
+    <menuitem
+        id="principal_details_menu"
+        name="Principal"
+        parent="school_menu"
+        action="action_principal_details"
+    />
+
 </odoo>

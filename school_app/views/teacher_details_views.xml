@@ -28,11 +28,12 @@
                                             <ul>
                                                 <li>
                                                     <strong>
-                                                        Name :<field name="name"/>
+                                                        TeacherID :<field name=
+                                                        "teacher_ref"/>
                                                     </strong>
                                                 </li>
                                                 <li>
-                                                   ID: <field name="ID"/>
+                                                    Name : <field name="name"/>
                                                 </li>
                                                 <li>
                                                     Contact Number :<field name="phone" widget="phone"/>
@@ -55,8 +56,9 @@
         <field name="arch" type="xml">
             <tree decoration-it="state in ['primary', 'secondary']"
                 decoration-bf="state=='higher_secondary'">
+                <field name="teacher_ref" string="TeacherID" readonly="1"
+                    decoration-bf="1"/>
                 <field name="name" optional="show"/>
-                <field name="ID" optional="show"/>
                 <field name="phone" widget="phone" optional="show"/>
                 <field name="age" optional="show"/>
                 <field name="state" optional="show"/>
@@ -88,6 +90,17 @@
                     domain="[('is_class_teacher', '=',True)]"/>
                 <field name="name"/>
             </search>
+        </field>
+    </record>
+
+    <record id="view_teachers_details_pivot" model="ir.ui.view">
+        <field name="name">teacher.details.pivot</field>
+        <field name="model">teacher.details</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="name" type="row"/>
+                <field name="salary" type="measure"/>
+            </pivot>
         </field>
     </record>
 
@@ -129,15 +142,15 @@
                                 </button>
                             </div>
                             <div class="oe_title" name="teacher_title">
-                                <h2> <field name="name"/></h2>
+                                <h2> <field name="teacher_ref"/></h2>
                             </div>
                             <group>
                                 <group>
-                                    <field name="ID"/>
                                     <field name="name"/>
                                     <field name="age"/>
                                     <field name="color" widget="color_picker"/>
                                     <field name="gender"/>
+                                    <field name="teachers_id"/>
                                 </group>
                                 <group>
                                     <field name="phone" widget="phone"/>
@@ -145,18 +158,44 @@
                                     <field name="is_class_teacher"
                                         widget="boolean_toggle" />
                                     <field name="last_leave"/>
+                                    <field name="salary"/>
                                 </group>
                             </group>
                         </page>
                         <page string="Student Information">
-                            <group>
-                                <field name="student_id"/>
-                            </group>
+                            <notebook>
+                                <page>
+                                    <field name="student_id">
+                                        <tree>
+                                            <field name="student_ref"/>
+                                            <field name="first_name"/>
+                                            <field name="current_standard"/>
+                                            <field name="percentage"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                           </notebook>
                         </page>
                         <page string="Subject Information">
-                            <group>
-                                <field name="subjects"/>
-                            </group>
+                            <notebook>
+                                <page>
+                                    <field name="subjects">
+                                        <tree>
+                                            <field name="subject_ref"/>
+                                            <field name="name"/>
+                                        </tree>
+                                        <form>
+                                            <group string="Teacher">
+                                                <field name="subject_teacher"/>
+                                            </group>
+                                            <group string="Subjects">
+                                                <field name="name"/>
+                                                <field name="standard"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </page>
+                            </notebook>
                         </page>
                     </notebook>
                 </sheet>
@@ -173,7 +212,7 @@
         model="ir.actions.act_window">
         <field name="name">Teacher</field>
         <field name="res_model">teacher.details</field>
-        <field name="view_mode">kanban,tree,search,graph,form</field>
+        <field name="view_mode">kanban,tree,pivot,search,graph,form</field>
     </record>
 
 </odoo>

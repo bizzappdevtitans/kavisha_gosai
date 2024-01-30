@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 from random import randint
 
@@ -12,8 +12,8 @@ class TeacherDetails(models.Model):
     name = fields.Char(string="Name", required=True)
     age = fields.Integer(string="Age")
     email = fields.Char(string="Email")
+    teachers_id = fields.Integer(string="Teacher ID")
     phone = fields.Char(string="Contact Number", required=True)
-    ID = fields.Integer(string="Teacher ID")
     gender = fields.Selection([("male", "Male"), ("female", "Female")], "Gender")
     state = fields.Selection(
         [
@@ -26,7 +26,10 @@ class TeacherDetails(models.Model):
     )
     is_class_teacher = fields.Boolean(string="Is Class Teacher")
     last_leave = fields.Datetime("Last Leave On")
-    student_id = fields.One2many("student.details", "teacher_id", "Student Information")
+    salary = fields.Float(string="Salary")
+    student_id = fields.One2many(
+        "student.details", "teacher_id", "Student Information"
+    )
     subjects = fields.One2many(
         "subject.details", "subject_teacher", "Subject Information"
     )
@@ -43,9 +46,22 @@ class TeacherDetails(models.Model):
         help="Tag color",
     )
     sequence = fields.Integer("Sequence", default=0)
+    teacher_ref = fields.Char(
+        string="GR Number", required=True, readonly=True, default=lambda self: _("New")
+    )
+
+    @api.model
+    def create(self, values):
+        if values.get("teacher_ref", _("New")) == _("New"):
+            values["teacher_ref"] = self.env["ir.sequence"].next_by_code(
+                "teacher.details"
+            ) or _("New")
+        result = super(TeacherDetails, self).create(values)
+        return result
 
     _sql_constraints = [
-        ("ID", "UNIQUE (ID)", "ID should be UNIQUE"),
+        ('teachers_id', 'UNIQUE (teachers_id)',
+            'ID shoul unique')
     ]
 
     def update_last_leave(self):

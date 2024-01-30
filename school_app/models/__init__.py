@@ -4,3 +4,4 @@ from . import subject_details
 from . import exam_details
 from . import result_details
 from . import event_details
+from . import principal_details
