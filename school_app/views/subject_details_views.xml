@@ -63,6 +63,7 @@
                                 <field name="color" widget="color_picker"/>
                                 <field name="standard"/>
                                 <field name="subject_teacher"/>
+                                <field name="exam_date"/>
                                 <field name="students"/>
                             </group>
                         </page>

@@ -24,12 +24,12 @@ class TeacherDetails(models.Model):
         string="Status",
         default="primary",
     )
-    is_class_teacher = fields.Boolean(string="Is Class Teacher")
+    is_class_teacher = fields.Boolean(
+        string="Is Class Teacher"
+    )
     last_leave = fields.Datetime("Last Leave On")
     salary = fields.Float(string="Salary")
-    student_id = fields.One2many(
-        "student.details", "teacher_id", "Student Information"
-    )
+    student_id = fields.One2many("student.details", "teacher_id", "Student Information")
     subjects = fields.One2many(
         "subject.details", "subject_teacher", "Subject Information"
     )
@@ -49,6 +49,7 @@ class TeacherDetails(models.Model):
     teacher_ref = fields.Char(
         string="GR Number", required=True, readonly=True, default=lambda self: _("New")
     )
+    exam_id = fields.One2many("exam.details", "teacher_id", "ExamDuty")
 
     @api.model
     def create(self, values):
@@ -59,10 +60,7 @@ class TeacherDetails(models.Model):
         result = super(TeacherDetails, self).create(values)
         return result
 
-    _sql_constraints = [
-        ('teachers_id', 'UNIQUE (teachers_id)',
-            'ID shoul unique')
-    ]
+    _sql_constraints = [("teachers_id", "UNIQUE (teachers_id)", "ID shoul unique")]
 
     def update_last_leave(self):
         self.write({"last_leave": fields.Date.today()})
@@ -143,3 +141,10 @@ class TeacherDetails(models.Model):
 
     def _default_color(self):
         return randint(1, 11)
+
+    @api.onchange("name")
+    def change_gender(self):
+        for record in self:
+            if record.name == "Khushi":
+                record.write({'gender':'female'})
+

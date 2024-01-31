@@ -31,6 +31,7 @@ class SubjectDetails(models.Model):
     subject_ref = fields.Char(
         string="Subject ID", required=True, readonly=True, default=lambda self: _("New")
     )
+    exam_date = fields.Date("ExamDate",compute="compute_exam_date")
 
     @api.model
     def create(self, values):
@@ -101,3 +102,17 @@ class SubjectDetails(models.Model):
 
     def _default_color(self):
         return randint(1, 11)
+
+    @api.onchange("name")
+    def change_color(self):
+        for record in self:
+            if record.name == "English":
+                record.write({"color": 4})
+
+    def compute_exam_date(self):
+        for record in self:
+            exam_date = self.env["exam.details"].search(
+                [("subject_name", "=", record.id)]
+            )
+            record.exam_date = exam_date.date
+

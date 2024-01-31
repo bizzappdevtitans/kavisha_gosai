@@ -53,7 +53,7 @@
             <form>
                 <header>
                     <field name="type_of_exam" widget="statusbar" clickable="True"
-                        options="{'clickable':1}" statusbar_visible="1st_mid,2nd_mid,final"/>
+                        options="{'clickable':1}" statusbar_visible="1st_mid,2nd_mid,final,board"/>
                 </header>
                 <sheet>
                     <notebook>
@@ -71,6 +71,7 @@
                                 <group>
                                     <field name="teacher_id"/>
                                     <field name="standard"/>
+                                    <field name="teacher_gender"/>
                                 </group>
                             </group>
                         </page>

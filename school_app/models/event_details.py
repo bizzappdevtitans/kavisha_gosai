@@ -34,3 +34,9 @@ class EventDetails(models.Model):
             ) or _("New")
         result = super(EventDetails, self).create(values)
         return result
+
+    @api.onchange("type_of_event")
+    def change_timing(self):
+        for record in self:
+            if record.type_of_event == "educational":
+                record.write({"timing": "morning"})

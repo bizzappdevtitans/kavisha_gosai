@@ -197,6 +197,9 @@
                                 </page>
                             </notebook>
                         </page>
+                        <page string="ExamInformation">
+                            <field name="exam_id"/>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">

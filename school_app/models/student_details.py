@@ -51,6 +51,7 @@ class StudentDetails(models.Model):
     student_ref = fields.Char(
         string="GR Number", required=True, readonly=True, default=lambda self: _("New")
     )
+    exam_id = fields.One2many("exam.details", "teacher_id", "ExamDuty")
 
     @api.model
     def create(self, values):
@@ -140,3 +141,9 @@ class StudentDetails(models.Model):
     def compute_percentage(self):
         for record in self:
             record.percentage = self.total_marks / len(self.result)
+
+    @api.onchange("priority")
+    def onchange_remark(self):
+        for record in self:
+            if record.priority == "4":
+                record.write({"remark": "Nothing"})
