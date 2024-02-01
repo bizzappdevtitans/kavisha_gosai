@@ -13,7 +13,7 @@ class TeacherDetails(models.Model):
     age = fields.Integer(string="Age")
     email = fields.Char(string="Email")
     teachers_id = fields.Integer(string="Teacher ID")
-    phone = fields.Char(string="Contact Number", required=True)
+    phonenumber = fields.Char(string="Contact Number", required=True)
     gender = fields.Selection([("male", "Male"), ("female", "Female")], "Gender")
     state = fields.Selection(
         [
@@ -24,12 +24,11 @@ class TeacherDetails(models.Model):
         string="Status",
         default="primary",
     )
-    is_class_teacher = fields.Boolean(
-        string="Is Class Teacher"
-    )
+    is_class_teacher = fields.Boolean(string="Is Class Teacher")
     last_leave = fields.Datetime("Last Leave On")
     salary = fields.Float(string="Salary")
-    student_id = fields.One2many("student.details", "teacher_id", "Student Information")
+    principal = fields.Char("PRINCIPAL", compute="find_principal")
+    student_id = fields.One2many("student.details", "teacher_name", "Student Information")
     subjects = fields.One2many(
         "subject.details", "subject_teacher", "Subject Information"
     )
@@ -132,10 +131,10 @@ class TeacherDetails(models.Model):
                 "target": "current",
             }
 
-    @api.constrains("phone")
+    @api.constrains("phonenumber")
     def check_phone(self):
         for record in self:
-            if not len(record.phone) == 10:
+            if not len(record.phonenumber) == 10:
                 raise ValidationError("The phone number is not valid")
         return True
 
@@ -146,5 +145,35 @@ class TeacherDetails(models.Model):
     def change_gender(self):
         for record in self:
             if record.name == "Khushi":
-                record.write({'gender':'female'})
+                record.write({"gender": "female"})
 
+    def name_get(self):
+        result = []
+        for record in self:
+            result.append((record.id, "%s - %s" % (record.teacher_ref, record.name)))
+        return result
+
+    @api.model
+    def _name_search(
+        self, name="", args=None, operator="ilike", limit=100, name_get_uid=None
+    ):
+        args = list(args or [])
+        if not (name == "" and operator == "ilike"):
+            args += [
+                "|",
+                ("name", operator, name),
+                ("phonenumber", operator, name),
+            ]
+        return self._search(args, limit=limit, access_rights_uid=name_get_uid)
+
+    def find_principal(self):
+        principal_ids = self.env["principal.details"].search([])
+        for record in self:
+            record.principal = principal_ids.filtered(
+                lambda principal: principal.year == "2024"
+            ).name
+
+    def unlink(self):
+        if self.student_id:
+            raise ValidationError(("YOu can not delete this record"))
+        return super(TeacherDetails, self).unlink()

@@ -31,7 +31,7 @@ class SubjectDetails(models.Model):
     subject_ref = fields.Char(
         string="Subject ID", required=True, readonly=True, default=lambda self: _("New")
     )
-    exam_date = fields.Date("ExamDate",compute="compute_exam_date")
+    exam_date = fields.Date("ExamDate", compute="compute_exam_date")
 
     @api.model
     def create(self, values):
@@ -116,3 +116,21 @@ class SubjectDetails(models.Model):
             )
             record.exam_date = exam_date.date
 
+    def name_get(self):
+        result = []
+        for record in self:
+            result.append((record.id, "%s - %s" % (record.subject_ref, record.name)))
+        return result
+
+    @api.model
+    def _name_search(
+        self, name="", args=None, operator="ilike", limit=100, name_get_uid=None
+    ):
+        args = list(args or [])
+        if not (name == "" and operator == "ilike"):
+            args += [
+                "|",
+                ("name", operator, name),
+                ("subject_teacher", operator, name),
+            ]
+        return self._search(args, limit=limit, access_rights_uid=name_get_uid)

@@ -8,7 +8,7 @@ class PrincipalDetails(models.Model):
 
     name = fields.Char(string="Name", required=True)
     age = fields.Integer(string="Age")
-    year = fields.Char("Time Duration")
+    year = fields.Char("In which Year")
     principal_ref = fields.Char(
         string="Principal ID", required=True, readonly=True, default=lambda self: _("New")
     )

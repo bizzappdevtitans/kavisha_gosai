@@ -36,7 +36,7 @@
                                                     Name : <field name="name"/>
                                                 </li>
                                                 <li>
-                                                    Contact Number :<field name="phone" widget="phone"/>
+                                                    Contact Number :<field name="phonenumber" widget="phone"/>
                                                 </li>
                                             </ul>
                                         </group>
@@ -59,7 +59,7 @@
                 <field name="teacher_ref" string="TeacherID" readonly="1"
                     decoration-bf="1"/>
                 <field name="name" optional="show"/>
-                <field name="phone" widget="phone" optional="show"/>
+                <field name="phonenumber" widget="phone" optional="show"/>
                 <field name="age" optional="show"/>
                 <field name="state" optional="show"/>
                 <field name="subjects" widget="many2many_tags" options="{'color_field': 'color'}"/>
@@ -153,12 +153,13 @@
                                     <field name="teachers_id"/>
                                 </group>
                                 <group>
-                                    <field name="phone" widget="phone"/>
+                                    <field name="phonenumber" widget="phone"/>
                                     <field name="email" widget="email"/>
                                     <field name="is_class_teacher"
                                         widget="boolean_toggle" />
                                     <field name="last_leave"/>
                                     <field name="salary"/>
+                                    <field name="principal"/>
                                 </group>
                             </group>
                         </page>

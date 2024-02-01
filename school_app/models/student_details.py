@@ -26,6 +26,7 @@ class StudentDetails(models.Model):
     )
     students_id = fields.Integer("Roll Number")
     remark = fields.Html(string="Remark")
+    principal = fields.Char("PRINCIPAL", compute="find_principal")
     emergency_conatct_name = fields.Char("Name")
     emergency_conatct_number = fields.Integer("Number")
     relation = fields.Char("Relation with child")
@@ -147,3 +148,31 @@ class StudentDetails(models.Model):
         for record in self:
             if record.priority == "4":
                 record.write({"remark": "Nothing"})
+
+    def name_get(self):
+        result = []
+        for record in self:
+            result.append(
+                (record.id, "%s - %s" % (record.student_ref, record.first_name))
+            )
+        return result
+
+    @api.model
+    def _name_search(
+        self, name="", args=None, operator="ilike", limit=100, name_get_uid=None
+    ):
+        args = list(args or [])
+        if not (name == "" and operator == "ilike"):
+            args += [
+                "|",
+                ("first_name", operator, name),
+                ("current_standard", operator, name),
+            ]
+        return self._search(args, limit=limit, access_rights_uid=name_get_uid)
+
+    def find_principal(self):
+        principal_ids = self.env["principal.details"].search([])
+        for record in self:
+            record.principal = principal_ids.filtered(
+                lambda principal: principal.year == "2024"
+            ).name

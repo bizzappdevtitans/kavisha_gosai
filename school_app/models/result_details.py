@@ -43,4 +43,3 @@ class ResultDetails(models.Model):
 
     def _default_color(self):
         return randint(1, 11)
-

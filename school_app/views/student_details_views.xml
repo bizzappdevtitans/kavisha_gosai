@@ -93,6 +93,7 @@
                                     <field name="gender"/>
                                     <field name="priority" widget="priority"/>
                                     <field name="remark"/>
+                                    <field name="principal"/>
                                 </group>
                             </group>
                         </page>

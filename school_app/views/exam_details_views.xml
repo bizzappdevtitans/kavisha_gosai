@@ -71,7 +71,7 @@
                                 <group>
                                     <field name="teacher_id"/>
                                     <field name="standard"/>
-                                    <field name="teacher_gender"/>
+                                    <field name="teacher_phone"/>
                                 </group>
                             </group>
                         </page>

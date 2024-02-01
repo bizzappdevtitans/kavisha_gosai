@@ -40,3 +40,6 @@ class EventDetails(models.Model):
         for record in self:
             if record.type_of_event == "educational":
                 record.write({"timing": "morning"})
+
+
+

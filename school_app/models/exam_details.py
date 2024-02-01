@@ -1,4 +1,5 @@
 from odoo import models, fields, _, api
+from odoo.exceptions import ValidationError
 
 
 class ExamDetails(models.Model):
@@ -32,7 +33,9 @@ class ExamDetails(models.Model):
     exam_ref = fields.Char(
         string="Exam ID", required=True, readonly=True, default=lambda self: _("New")
     )
-    teacher_gender = fields.Char("TeacherGender",compute="compute_teacher_gender")
+    teacher_phone = fields.Char(
+        "TeacherPhonenumber", compute="compute_teacher_phonenumber"
+    )
 
     @api.model
     def create(self, values):
@@ -47,11 +50,16 @@ class ExamDetails(models.Model):
     def change_exam(self):
         for record in self:
             if record.standard == "10_12":
-                record.write({"type_of_exam":"board"})
+                record.write({"type_of_exam": "board"})
 
-    def compute_teacher_gender(self):
+    def compute_teacher_phonenumber(self):
         for record in self:
-            teachers_gender = self.env["teacher.details"].search(
+            teachers_phone = self.env["teacher.details"].search(
                 [("exam_id", "=", record.id)]
             )
-            record.teacher_gender = teachers_gender.gender
+            record.teacher_phone = teachers_phone.mapped("phonenumber")
+
+    def unlink(self):
+        if self.type_of_exam == "board":
+            raise ValidationError(("YOu can not delete this record"))
+        return super(ExamDetails, self).unlink()
