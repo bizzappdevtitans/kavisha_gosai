@@ -28,7 +28,7 @@ class StudentDetails(models.Model):
     remark = fields.Html(string="Remark")
     principal = fields.Char("PRINCIPAL", compute="find_principal")
     emergency_conatct_name = fields.Char("Name")
-    emergency_conatct_number = fields.Integer("Number")
+    emergency_conatct_number = fields.Char("Number")
     relation = fields.Char("Relation with child")
     teacher_name = fields.Many2one(
         comodel_name="teacher.details",
@@ -176,3 +176,4 @@ class StudentDetails(models.Model):
             record.principal = principal_ids.filtered(
                 lambda principal: principal.year == "2024"
             ).name
+

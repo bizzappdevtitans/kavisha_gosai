@@ -11,7 +11,7 @@
                     decoration-bf="1"/>
                 <field name="subject_name" widget="badge" optional="show"/>
                 <field name="type_of_exam" optional="show"/>
-                <field name="date" widget="daterange" optional="show"/>
+                <field name="date" widget="remaining_days" optional="show"/>
                 <field name="teacher_id" optional="hide"/>
             </tree>
         </field>

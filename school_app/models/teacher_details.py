@@ -28,9 +28,15 @@ class TeacherDetails(models.Model):
     last_leave = fields.Datetime("Last Leave On")
     salary = fields.Float(string="Salary")
     principal = fields.Char("PRINCIPAL", compute="find_principal")
-    student_id = fields.One2many("student.details", "teacher_name", "Student Information")
+    student_id = fields.One2many(
+        comodel_name="student.details",
+        inverse_name="teacher_name",
+        string="Student Information",
+    )
     subjects = fields.One2many(
-        "subject.details", "subject_teacher", "Subject Information"
+        comodel_name="subject.details",
+        inverse_name="subject_teacher",
+        string="Subject Information",
     )
     student_count = fields.Integer(
         string="Student count", compute="compute_student_count"
@@ -172,8 +178,3 @@ class TeacherDetails(models.Model):
             record.principal = principal_ids.filtered(
                 lambda principal: principal.year == "2024"
             ).name
-
-    def unlink(self):
-        if self.student_id:
-            raise ValidationError(("YOu can not delete this record"))
-        return super(TeacherDetails, self).unlink()

@@ -166,9 +166,10 @@
                         <page string="Student Information">
                             <notebook>
                                 <page>
-                                    <field name="student_id">
-                                        <tree>
+                                    <field name="student_id" widget="section_and_note_one2many" mode="tree">
+                                        <tree editable="bottom">
                                             <field name="student_ref"/>
+                                            <field name="subject_id"/>
                                             <field name="first_name"/>
                                             <field name="current_standard"/>
                                             <field name="percentage"/>
