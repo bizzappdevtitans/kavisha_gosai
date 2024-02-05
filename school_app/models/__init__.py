@@ -5,3 +5,5 @@ from . import exam_details
 from . import result_details
 from . import event_details
 from . import principal_details
+from . import hostel_details
+from . import res_config_settings

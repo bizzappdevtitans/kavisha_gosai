@@ -17,6 +17,8 @@
         "views/exam_details_views.xml",
         "views/event_details_views.xml",
         "views/principal_details_views.xml",
+        "views/hostel_details_views.xml",
+        "views/res_config_settings_views.xml",
         "views/school_menu_views.xml",
     ],
     "depends": ["base", "mail"],

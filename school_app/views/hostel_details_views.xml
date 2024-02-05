@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record id="view_hostel_details_tree" model="ir.ui.view">
+        <field name="name">hostel.details.tree</field>
+        <field name="model">hostel.details</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="student_id"/>
+                <field name="hostel_type"/>
+                <field name="admission_confirm"/>
+                <field name="parent_phone"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hostel_details_form" model="ir.ui.view">
+        <field name="name">hostel.details.form</field>
+        <field name="model">hostel.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group string="Student Information">
+                            <field name="student_id"/>
+                            <field name="student_standard"/>
+                            <field name="admission_confirm"/>
+                            <field name="parent_phone"/>
+                        </group>
+                        <group string="Hostel Information">
+                            <field name="hostel_type"/>
+                            <field name="warden_name"/>
+                            <field name="floor"/>
+                            <field name="room_number"/>
+                            <field name="total_fees"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hostel_details"
+        model="ir.actions.act_window">
+        <field name="name">Hostel</field>
+        <field name="res_model">hostel.details</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
+

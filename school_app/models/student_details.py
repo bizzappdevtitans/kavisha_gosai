@@ -16,6 +16,7 @@ class StudentDetails(models.Model):
     DOB = fields.Date(string="DOB")
     age = fields.Integer(string="Age", readonly=True, compute="compute_age")
     gender = fields.Selection([("male", "Male"), ("female", "Female")], "Gender")
+    lives_hostel = fields.Boolean("Lives in School Hostel")
     current_standard = fields.Integer(string="Standard")
     last_year_marks = fields.Float(string="Percentage")
     last_standard = fields.Integer(string="standard")

@@ -72,7 +72,7 @@
                                     </div>
                                 </button>
                             </div>
-                            <div class="oe_title" name="exam_title">
+                            <div class="oe_title" name="student_title">
                                 <h2> <field name="student_ref"/>
                                 </h2>
                             </div>
@@ -85,6 +85,7 @@
                                     <field name="last_name"/>
                                     <field name="address"/>
                                     <field name="students_id"/>
+                                    <field name="lives_hostel"/>
                                 </group>
                                 <group>
                                     <field name="DOB"/>

@@ -24,8 +24,6 @@
         parent="student_menu"
         action="action_result_details"
     />
-
-
     <menuitem
         id="teacher_details_menu"
         name="Teacher"
@@ -59,6 +57,22 @@
         name="Principal"
         parent="school_menu"
         action="action_principal_details"
+    />
+
+    <menuitem
+        id="hostel_details_menu"
+        name="Hostel"
+        parent="school_menu"
+        action="action_hostel_details"
+    />
+
+    <menuitem
+        id="school_config_settings_menu"
+        name="Settings"
+        parent="school_menu"
+        sequence="0"
+        action="school_config_settings_action"
+        groups="base.group_system"
     />
 
 </odoo>
