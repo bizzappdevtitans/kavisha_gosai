@@ -5,7 +5,7 @@ from odoo.exceptions import ValidationError
 class ExamDetails(models.Model):
     _name = "exam.details"
     _description = "Exam Details"
-    _rec_name = "subject_name"
+    _rec_name = "subject_id"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     type_of_exam = fields.Selection(
@@ -18,7 +18,7 @@ class ExamDetails(models.Model):
         "Exam Type",
     )
     date = fields.Date("Date of Exam")
-    subject_name = fields.Many2one(comodel_name="subject.details", string="Subject")
+    subject_id = fields.Many2one(comodel_name="subject.details", string="Subject")
     teacher_id = fields.Many2one(comodel_name="teacher.details", string="Teacher")
     standard = fields.Selection(
         [
@@ -34,11 +34,12 @@ class ExamDetails(models.Model):
         string="Exam ID", required=True, readonly=True, default=lambda self: _("New")
     )
     teacher_phone = fields.Char(
-        "TeacherPhonenumber", compute="compute_teacher_phonenumber"
+        "TeacherPhonenumber", compute="_compute_teacher_phonenumber"
     )
 
     @api.model
     def create(self, values):
+        """Create a sequence number using ORM create method"""
         if values.get("exam_ref", _("New")) == _("New"):
             values["exam_ref"] = self.env["ir.sequence"].next_by_code(
                 "exam.details"
@@ -48,18 +49,22 @@ class ExamDetails(models.Model):
 
     @api.onchange("standard")
     def change_exam(self):
+        """Change the exam type to board if standard 10-12 using ORM write method"""
         for record in self:
             if record.standard == "10_12":
                 record.write({"type_of_exam": "board"})
 
-    def compute_teacher_phonenumber(self):
+    @api.depends("teacher_id")
+    def _compute_teacher_phonenumber(self):
+        """print the teacher phone number from the name entered using ORM search method"""
         for record in self:
             teachers_phone = self.env["teacher.details"].search(
-                [("exam_id", "=", record.id)]
+                [("exam_ids", "=", record.id)]
             )
             record.teacher_phone = teachers_phone.mapped("phonenumber")
 
     def unlink(self):
+        """Raise an error if record of board exam will be deleted"""
         if self.type_of_exam == "board":
-            raise ValidationError(("YOu can not delete this record"))
+            raise ValidationError(("You can not delete this record"))
         return super(ExamDetails, self).unlink()

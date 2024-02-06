@@ -10,17 +10,17 @@ class SubjectDetails(models.Model):
 
     name = fields.Char(string="Name")
     standard = fields.Integer(string="Subject Standard")
-    subject_teacher = fields.Many2one(
+    teacher_id = fields.Many2one(
         comodel_name="teacher.details", string="Subject Teacher"
     )
-    students = fields.Many2many(
+    student_ids = fields.Many2many(
         comodel_name="student.details", domain="[('current_standard', '=', standard)]"
     )
     student_count = fields.Integer(
-        string="student Count", compute="compute_student_count"
+        string="student Count", compute="_compute_student_count"
     )
     teacher_count = fields.Integer(
-        string="Teacher Count", compute="compute_teacher_count"
+        string="Teacher Count", compute="_compute_teacher_count"
     )
     active = fields.Boolean(default=True)
     color = fields.Integer(
@@ -31,10 +31,11 @@ class SubjectDetails(models.Model):
     subject_ref = fields.Char(
         string="Subject ID", required=True, readonly=True, default=lambda self: _("New")
     )
-    exam_date = fields.Date("ExamDate", compute="compute_exam_date")
+    exam_date = fields.Date("ExamDate", compute="_compute_exam_date")
 
     @api.model
     def create(self, values):
+        """Create a sequence number using ORM create method"""
         if values.get("subject_ref", _("New")) == _("New"):
             values["subject_ref"] = self.env["ir.sequence"].next_by_code(
                 "subject.details"
@@ -42,27 +43,32 @@ class SubjectDetails(models.Model):
         result = super(SubjectDetails, self).create(values)
         return result
 
-    def compute_student_count(self):
+    @api.depends("student_ids")
+    def _compute_student_count(self):
+        """Find the total count of student for the smart button"""
         for record in self:
             student_count = self.env["student.details"].search_count(
-                [("subject_id", "=", record.id)]
+                [("subject_ids", "=", record.id)]
             )
             record.student_count = student_count
 
-    def compute_teacher_count(self):
+    @api.depends("teacher_id")
+    def _compute_teacher_count(self):
+        """Find the total count of teacher for the smart button"""
         for record in self:
             teacher_count = self.env["teacher.details"].search_count(
-                [("subjects", "=", record.id)]
+                [("subject_ids", "=", record.id)]
             )
             record.teacher_count = teacher_count
 
     def action_open_student_details(self):
+        """return a form or tree view for the smart button of particular record"""
         if self.student_count > 1:
             return {
                 "type": "ir.actions.act_window",
                 "name": "Students",
                 "res_model": "student.details",
-                "domain": [("subject_id", "=", self.id)],
+                "domain": [("subject_ids", "=", self.id)],
                 "view_mode": "tree,form",
                 "target": "current",
             }
@@ -71,20 +77,21 @@ class SubjectDetails(models.Model):
                 "type": "ir.actions.act_window",
                 "name": "Students",
                 "res_model": "student.details",
-                "res_id": self.students.id,
-                "domain": [("subject_id", "=", self.id)],
+                "res_id": self.student_ids.id,
+                "domain": [("subject_ids", "=", self.id)],
                 "view_mode": "form",
                 "view_type": "form",
                 "target": "current",
             }
 
     def action_open_teacher_details(self):
+        """return a form or tree view for the smart button of particular record"""
         if self.teacher_count > 1:
             return {
                 "type": "ir.actions.act_window",
                 "name": "Class Teacher",
                 "res_model": "teacher.details",
-                "domain": [("subjects", "=", self.id)],
+                "domain": [("subject_ids", "=", self.id)],
                 "view_mode": "tree,form",
                 "target": "current",
             }
@@ -93,8 +100,8 @@ class SubjectDetails(models.Model):
                 "type": "ir.actions.act_window",
                 "name": "Class Teacher",
                 "res_model": "teacher.details",
-                "res_id": self.subject_teacher.id,
-                "domain": [("subjects", "=", self.id)],
+                "res_id": self.teacher_id.id,
+                "domain": [("subject_ids", "=", self.id)],
                 "view_type": "form",
                 "view_mode": "form",
                 "target": "current",
@@ -109,10 +116,11 @@ class SubjectDetails(models.Model):
             if record.name == "English":
                 record.write({"color": 4})
 
-    def compute_exam_date(self):
+    @api.depends("name")
+    def _compute_exam_date(self):
         for record in self:
             exam_date = self.env["exam.details"].search(
-                [("subject_name", "=", record.id)]
+                [("subject_id", "=", record.id)]
             )
             record.exam_date = exam_date.date
 

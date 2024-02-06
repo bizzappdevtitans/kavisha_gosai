@@ -15,10 +15,25 @@
                         <div class="col-12 col-lg-6 o_setting_box">
                             <div class="o_setting_left_pane"/>
                             <div class="o_setting_right_pane">
-                                <span class="o_form_label">Admission Confirm</span>
+                                <span class="o_form_label">Hostel Admission Confirm</span>
                                 <div class="text-muted content-group mt16">
                                     <field name="confirm_admission" class="text-center oe_inline"/>
                                     <span> days after the today's date</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app_settings_block">
+                    <h2>Work Management</h2>
+                    <div class="row mt16 o_settings_container" id="school_setting">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">School Working Hour</span>
+                                <div class="text-muted content-group mt16">
+                                    <field name="working_hour" class="text-center oe_inline"/>
+                                    <span>for the teacher and principal</span>
                                 </div>
                             </div>
                         </div>

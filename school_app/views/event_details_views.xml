@@ -14,7 +14,7 @@
                 <field name="standard" optional="show"/>
                 <field name="type_of_event" optional="show"/>
                 <field name="event_date" widget="remaining_days" optional="show"/>
-                <field name="teacher" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="teacher_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
             </tree>
         </field>
     </record>
@@ -38,8 +38,8 @@
         <field name="arch" type="xml">
             <calendar string="Event Date" date_start="event_date" color="event_name">
                 <field name="standard"/>
-                <field name="teacher" widget="many2many_tags"/>
-                <field name="timing"/>
+                <field name="teacher_ids" widget="many2many_tags"/>
+                <field name="event_timing"/>
                 <field name="type_of_event"/>
             </calendar>
         </field>
@@ -50,7 +50,7 @@
         <field name="model">event.details</field>
         <field name="arch" type="xml">
            <activity string="Events">
-                <field name="teacher"/>
+                <field name="teacher_ids"/>
                 <templates>
                     <div t-name="activity-box">
                             <field name="event_name" display="full"/>
@@ -80,11 +80,11 @@
                                 <group>
                                     <field name="event_name"/>
                                     <field name="event_date"/>
-                                    <field name="teacher" widget="many2many_tags"/>
+                                    <field name="teacher_ids" widget="many2many_tags"/>
                                 </group>
                                 <group>
                                     <field name="type_of_event"/>
-                                    <field name="timing"/>
+                                    <field name="event_timing"/>
                                 </group>
                             </group>
                         </page>

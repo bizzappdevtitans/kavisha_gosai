@@ -8,8 +8,8 @@
             <tree>
                 <field name="result_ref" string="ResultID" readonly="1"
                     decoration-bf="1"/>
-                <field name="student_name" optional="show"/>
-                <field name="subject_name" widget="badge" optional="show"/>
+                <field name="student_id" optional="show"/>
+                <field name="subject_id" widget="badge" optional="show"/>
                 <field name="marks" optional="show"/>
             </tree>
         </field>
@@ -23,9 +23,9 @@
                 <filter string="Exams" name="type_of_exam"
                     context="{'group_by': 'type_of_exam'}"/>
                 <searchpanel>
-                    <field name="student_name" enable_counters="1"
+                    <field name="student_id" enable_counters="1"
                         icon="fa-solid fa-users"/>
-                    <field name="subject_name" select="multi" enable_counters="1"
+                    <field name="subject_id" select="multi" enable_counters="1"
                         icon="fa-solid fa-book"/>
                 </searchpanel>
             </search>
@@ -50,11 +50,11 @@
                             </div>
                             <group>
                                 <group>
-                                    <field name="student_name"/>
+                                    <field name="student_id"/>
                                     <field name="color" widget="color_picker"/>
                                 </group>
                                 <group>
-                                    <field name="subject_name"/>
+                                    <field name="subject_id"/>
                                     <field name="marks"/>
                                 </group>
                             </group>

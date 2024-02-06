@@ -18,16 +18,18 @@ class EventDetails(models.Model):
         [("entertainment", "Entertainment"), ("educational", "Educational")],
         "Type Of Event",
     )
-    timing = fields.Selection(
-        [("morning", "Morning"), ("evening", "Evening"), ("night", "Night")], "Timing"
+    event_timing = fields.Selection(
+        [("morning", "Morning"), ("evening", "Evening"), ("night", "Night")],
+        "Event-Timing",
     )
-    teacher = fields.Many2many(comodel_name="teacher.details")
+    teacher_ids = fields.Many2many(comodel_name="teacher.details")
     event_ref = fields.Char(
         string="Event ID", required=True, readonly=True, default=lambda self: _("New")
     )
 
     @api.model
     def create(self, values):
+        """Create a sequence number using ORM create method"""
         if values.get("event_ref", _("New")) == _("New"):
             values["event_ref"] = self.env["ir.sequence"].next_by_code(
                 "event.details"
@@ -37,9 +39,7 @@ class EventDetails(models.Model):
 
     @api.onchange("type_of_event")
     def change_timing(self):
+        """Change the timing of event if the type is educational"""
         for record in self:
             if record.type_of_event == "educational":
-                record.write({"timing": "morning"})
-
-
-
+                record.write({"event_timing": "morning"})

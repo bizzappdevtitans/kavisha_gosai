@@ -10,11 +10,15 @@ class PrincipalDetails(models.Model):
     age = fields.Integer(string="Age")
     year = fields.Char("In which Year")
     principal_ref = fields.Char(
-        string="Principal ID", required=True, readonly=True, default=lambda self: _("New")
+        string="Principal ID",
+        required=True,
+        readonly=True,
+        default=lambda self: _("New"),
     )
 
     @api.model
     def create(self, values):
+        """Create a sequence number using ORM create method"""
         if values.get("principal_ref", _("New")) == _("New"):
             values["principal_ref"] = self.env["ir.sequence"].next_by_code(
                 "principal.details"

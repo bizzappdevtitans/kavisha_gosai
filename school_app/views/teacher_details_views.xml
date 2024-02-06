@@ -62,7 +62,7 @@
                 <field name="phonenumber" widget="phone" optional="show"/>
                 <field name="age" optional="show"/>
                 <field name="state" optional="show"/>
-                <field name="subjects" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="subject_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 <field name="gender" optional="hide"/>
             </tree>
         </field>
@@ -150,7 +150,7 @@
                                     <field name="age"/>
                                     <field name="color" widget="color_picker"/>
                                     <field name="gender"/>
-                                    <field name="teachers_id"/>
+                                    <field name="teachers_rollnumber"/>
                                 </group>
                                 <group>
                                     <field name="phonenumber" widget="phone"/>
@@ -161,15 +161,18 @@
                                     <field name="salary"/>
                                     <field name="principal"/>
                                 </group>
+                                <group name="group_bottom">
+                                    <field name="working_hour"/>
+                                </group>
                             </group>
                         </page>
                         <page string="Student Information">
                             <notebook>
                                 <page>
-                                    <field name="student_id" widget="section_and_note_one2many" mode="tree">
-                                        <tree editable="bottom">
+                                    <field name="student_ids">
+                                        <tree>
                                             <field name="student_ref"/>
-                                            <field name="subject_id"/>
+                                            <field name="subject_ids"/>
                                             <field name="first_name"/>
                                             <field name="current_standard"/>
                                             <field name="percentage"/>
@@ -181,14 +184,14 @@
                         <page string="Subject Information">
                             <notebook>
                                 <page>
-                                    <field name="subjects">
+                                    <field name="subject_ids">
                                         <tree>
                                             <field name="subject_ref"/>
                                             <field name="name"/>
                                         </tree>
                                         <form>
                                             <group string="Teacher">
-                                                <field name="subject_teacher"/>
+                                                <field name="teacher_id"/>
                                             </group>
                                             <group string="Subjects">
                                                 <field name="name"/>
@@ -200,7 +203,7 @@
                             </notebook>
                         </page>
                         <page string="ExamInformation">
-                            <field name="exam_id"/>
+                            <field name="exam_ids"/>
                         </page>
                     </notebook>
                 </sheet>

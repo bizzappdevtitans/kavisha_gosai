@@ -1,7 +1,7 @@
 {
-    "name": "Narayana Guru",
+    "name": "School Application",
     "summary": "USe for School Management",
-    "author": "BizzAppDev",
+    "author": "BizzAppDev Systems Pvt. Ltd",
     "website": "https://bizzappdev.com",
     "version": "15.0.1.0.0",
     "license": "LGPL-3",
@@ -22,5 +22,5 @@
         "views/school_menu_views.xml",
     ],
     "depends": ["base", "mail"],
-    "category": "Services/Narayana Guru",
+    "category": "Services/School Application",
 }

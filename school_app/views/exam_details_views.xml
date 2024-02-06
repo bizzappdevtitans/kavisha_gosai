@@ -9,7 +9,7 @@
             <tree>
                 <field name="exam_ref" string="ExamID" readonly="1"
                     decoration-bf="1"/>
-                <field name="subject_name" widget="badge" optional="show"/>
+                <field name="subject_id" widget="badge" optional="show"/>
                 <field name="type_of_exam" optional="show"/>
                 <field name="date" widget="remaining_days" optional="show"/>
                 <field name="teacher_id" optional="hide"/>
@@ -25,7 +25,7 @@
                 <filter string="Exams" name="type_of_exam"
                     context="{'group_by': 'type_of_exam'}"/>
                 <searchpanel>
-                    <field name="subject_name" select="multi" enable_counters="1"
+                    <field name="subject_id" select="multi" enable_counters="1"
                         icon="fa-solid fa-book"/>
                     <field name="teacher_id" enable_counters="1"
                         icon="fa-solid fa-user"/>
@@ -39,7 +39,7 @@
         <field name="name">exam.details.calendar</field>
         <field name="model">exam.details</field>
         <field name="arch" type="xml">
-            <calendar string="Exam Date" date_start="date" color="subject_name">
+            <calendar string="Exam Date" date_start="date" color="subject_id">
                 <field name="standard"/>
                 <field name="teacher_id"/>
             </calendar>
@@ -65,7 +65,7 @@
 
                             <group>
                                 <group>
-                                    <field name="subject_name"/>
+                                    <field name="subject_id"/>
                                     <field name="date"/>
                                 </group>
                                 <group>

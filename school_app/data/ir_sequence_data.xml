@@ -11,9 +11,7 @@
             <field name="padding">5</field>
             <field name="company_id" eval="False"/>
         </record>
-    </data>
 
-    <data noupdate="1">
 <!--  Sequences for exam.details  -->
         <record id="seq_exam_details" model="ir.sequence">
             <field name="name">Exam Details</field>
@@ -22,9 +20,7 @@
             <field name="padding">3</field>
             <field name="company_id" eval="False"/>
         </record>
-    </data>
 
-    <data noupdate="1">
 <!--  Sequences for principal.details  -->
         <record id="seq_principal_details" model="ir.sequence">
             <field name="name">Principal Details</field>
@@ -33,9 +29,7 @@
             <field name="padding">2</field>
             <field name="company_id" eval="False"/>
         </record>
-    </data>
 
-    <data noupdate="1">
 <!--  Sequences for result.details  -->
         <record id="seq_result_details" model="ir.sequence">
             <field name="name">Result Details</field>
@@ -44,9 +38,7 @@
             <field name="padding">3</field>
             <field name="company_id" eval="False"/>
         </record>
-    </data>
 
-    <data noupdate="1">
 <!--  Sequences for student.details  -->
         <record id="seq_student_details" model="ir.sequence">
             <field name="name">Student Details</field>
@@ -55,9 +47,7 @@
             <field name="padding">2</field>
             <field name="company_id" eval="False"/>
         </record>
-    </data>
 
-    <data noupdate="1">
 <!--  Sequences for subject.details  -->
         <record id="seq_subject_details" model="ir.sequence">
             <field name="name">Subject Details</field>
@@ -66,9 +56,7 @@
             <field name="padding">4</field>
             <field name="company_id" eval="False"/>
         </record>
-    </data>
 
-    <data noupdate="1">
 <!--  Sequences for teacher.details  -->
         <record id="seq_teacher_details" model="ir.sequence">
             <field name="name">Teacher Details</field>

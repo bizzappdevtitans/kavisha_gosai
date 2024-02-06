@@ -5,21 +5,21 @@ from random import randint
 class ResultDetails(models.Model):
     _name = "result.details"
     _description = "Result Details"
-    _rec_name = "subject_name"
+    _rec_name = "subject_id"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     type_of_exam = fields.Selection(
         [("1st_mid", "1st MID"), ("2nd_mid", "2nd MID"), ("final", "Final")],
         "Exam Type",
     )
-    student_name = fields.Many2one(
+    student_id = fields.Many2one(
         comodel_name="student.details",
         string="Student Name",
     )
-    subject_name = fields.Many2one(
+    subject_id = fields.Many2one(
         comodel_name="subject.details",
         string="Subjects",
-        domain="[('students', '=', student_name)]",
+        domain="[('student_ids', '=', student_id)]",
     )
     marks = fields.Integer(string="Marks")
     active = fields.Boolean(default=True)
@@ -34,6 +34,7 @@ class ResultDetails(models.Model):
 
     @api.model
     def create(self, values):
+        """Create a sequence number using ORM create method"""
         if values.get("result_ref", _("New")) == _("New"):
             values["result_ref"] = self.env["ir.sequence"].next_by_code(
                 "result.details"

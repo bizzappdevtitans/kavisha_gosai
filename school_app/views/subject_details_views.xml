@@ -10,7 +10,7 @@
                     decoration-bf="1"/>
                 <field name="name" widget="badge" optional="show" string="SubjectName"/>
                 <field name="standard" optional="hide"/>
-                <field name="subject_teacher" optional="show"/>
+                <field name="teacher_id" optional="show"/>
             </tree>
         </field>
     </record>
@@ -24,7 +24,7 @@
                     context="{'group_by': 'standard'}"/>
                 <field name="name"/>
                 <searchpanel>
-                    <field name="subject_teacher" enable_counters="1"
+                    <field name="teacher_id" enable_counters="1"
                         icon="fa-solid fa-user"/>
                 </searchpanel>
             </search>
@@ -62,9 +62,9 @@
                                 <field name="name"/>
                                 <field name="color" widget="color_picker"/>
                                 <field name="standard"/>
-                                <field name="subject_teacher"/>
+                                <field name="teacher_id"/>
                                 <field name="exam_date"/>
-                                <field name="students"/>
+                                <field name="student_ids"/>
                             </group>
                         </page>
                     </notebook>

@@ -15,8 +15,8 @@
                 <field name="current_standard" optional="show"/>
                 <field name="priority" widget="priority" optional="show"/>
                 <field name="percentage" widget="percentpie" optional="show"/>
-                <field name="teacher_name" optional="hide"/>
-                <field name="result" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="teacher_id" optional="hide"/>
+                <field name="result_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
             </tree>
         </field>
     </record>
@@ -30,7 +30,7 @@
                     context="{'group_by': 'gender'}"/>
                 <field name="first_name"/>
                 <searchpanel>
-                    <field name="teacher_name" enable_counters="1"
+                    <field name="teacher_id" enable_counters="1"
                         icon="fa-solid fa-user"/>
                 </searchpanel>
             </search>
@@ -84,11 +84,11 @@
                                     <field name="middle_name"/>
                                     <field name="last_name"/>
                                     <field name="address"/>
-                                    <field name="students_id"/>
+                                    <field name="student_rollnumber"/>
                                     <field name="lives_hostel"/>
                                 </group>
                                 <group>
-                                    <field name="DOB"/>
+                                    <field name="date_of_birth"/>
                                     <field name="age"/>
                                     <field name="current_standard"/>
                                     <field name="gender"/>
@@ -123,36 +123,36 @@
                         <page string="Class Teacher">
                             <group>
                                 <group>
-                                    <field name="teacher_id"/>
+                                    <field name="teacher_rollnumber"/>
                                 </group>
                                 <group>
-                                    <field name="teacher_name"/>
+                                    <field name="teacher_id"/>
                                 </group>
                             </group>
                         </page>
                         <page string="Subject Information">
                             <group>
-                                <field name="subject_id"/>
+                                <field name="subject_ids"/>
                             </group>
                         </page>
                         <page string="Result">
                             <notebook>
                                 <page>
                                     <group>
-                                        <field name="result">
+                                        <field name="result_ids">
                                             <tree>
                                                 <field name="result_ref"
                                                     string="ResultID"/>
-                                                <field name="subject_name"
+                                                <field name="subject_id"
                                                     widget="badge" />
                                                 <field name="marks"/>
                                             </tree>
                                             <form>
                                                 <group string="Student">
-                                                    <field name="student_name"/>
+                                                    <field name="student_id"/>
                                                 </group>
                                                 <group string="Result">
-                                                    <field name="subject_name"/>
+                                                    <field name="subject_id"/>
                                                     <field name="marks"/>
                                                 </group>
                                             </form>
@@ -185,4 +185,3 @@
     </record>
 
 </odoo>
-
