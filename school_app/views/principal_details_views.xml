@@ -11,6 +11,7 @@
                 <field name="name"/>
                 <field name="age"/>
                 <field name="year"/>
+                <field name="working_hour"/>
             </tree>
         </field>
     </record>

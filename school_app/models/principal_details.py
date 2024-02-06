@@ -15,6 +15,7 @@ class PrincipalDetails(models.Model):
         readonly=True,
         default=lambda self: _("New"),
     )
+    working_hour = fields.Char("Working Hours", compute="_compute_working_hour")
 
     @api.model
     def create(self, values):
@@ -25,3 +26,10 @@ class PrincipalDetails(models.Model):
             ) or _("New")
         result = super(PrincipalDetails, self).create(values)
         return result
+
+    def _compute_working_hour(self):
+        """Using System parameter write a working hours of week"""
+        working_hours = self.env["ir.config_parameter"].get_param(
+            "school_app.working_hour"
+        )
+        self.working_hour = working_hours

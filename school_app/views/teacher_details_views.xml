@@ -161,7 +161,7 @@
                                     <field name="salary"/>
                                     <field name="principal"/>
                                 </group>
-                                <group name="group_bottom">
+                                <group name="group_bottom" string="Work Organization">
                                     <field name="working_hour"/>
                                 </group>
                             </group>

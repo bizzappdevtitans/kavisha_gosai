@@ -41,5 +41,5 @@ class EventDetails(models.Model):
     def change_timing(self):
         """Change the timing of event if the type is educational"""
         for record in self:
-            if record.type_of_event == "educational":
+            if not record.type_of_event == "entertainment":
                 record.write({"event_timing": "morning"})
