@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+school_app.access_student_details,access_student_details,school_app.model_student_details,base.group_user,1,1,1,1
+school_app.access_teacher_details,access_teacher_details,school_app.model_teacher_details,base.group_user,1,1,1,1
+school_app.access_subject_details,access_subject_details,school_app.model_subject_details,base.group_user,1,1,1,1
+school_app.access_exam_details,access_exam_details,school_app.model_exam_details,base.group_user,1,1,1,1
+school_app.access_result_details,access_result_details,school_app.model_result_details,base.group_user,1,1,1,1
+school_app.access_event_details,access_event_details,school_app.model_event_details,base.group_user,1,1,1,1
+school_app.access_principal_details,access_principal_details,school_app.model_principal_details,base.group_user,1,1,1,1
+chool_app.access_hostel_details,access_hostel_details,school_app.model_hostel_details,base.group_user,1,1,1,1
+
+
+

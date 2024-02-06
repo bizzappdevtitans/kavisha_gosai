@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <menuitem
+        id="school_menu"
+        name="School" />
+
+    <menuitem
+        id="student_menu"
+        name="Student"
+        parent="school_menu"
+    />
+
+    <menuitem
+        id="student_details_menu"
+        name="Student-Profile"
+        parent="student_menu"
+        action="action_student_details"
+    />
+
+    <menuitem
+        id="result_details_menu"
+        name="Result"
+        parent="student_menu"
+        action="action_result_details"
+    />
+    <menuitem
+        id="teacher_details_menu"
+        name="Teacher"
+        parent="school_menu"
+        action="action_teacher_details"
+    />
+
+    <menuitem
+        id="subject_details_menu"
+        name="Subject"
+        parent="school_menu"
+        action="action_subject_details"
+    />
+
+    <menuitem
+        id="exam_details_menu"
+        name="Exam"
+        parent="school_menu"
+        action="action_exam_details"
+    />
+
+    <menuitem
+        id="event_details_menu"
+        name="Event"
+        parent="school_menu"
+        action="action_event_details"
+    />
+
+    <menuitem
+        id="principal_details_menu"
+        name="Principal"
+        parent="school_menu"
+        action="action_principal_details"
+    />
+
+    <menuitem
+        id="hostel_details_menu"
+        name="Hostel"
+        parent="school_menu"
+        action="action_hostel_details"
+    />
+
+    <menuitem
+        id="school_config_settings_menu"
+        name="Settings"
+        parent="school_menu"
+        sequence="0"
+        action="school_config_settings_action"
+        groups="base.group_system"
+    />
+
+</odoo>

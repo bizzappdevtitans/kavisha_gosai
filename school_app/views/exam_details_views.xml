@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="view_exam_details_tree" model="ir.ui.view">
+        <field name="name">exam.details.tree</field>
+        <field name="model">exam.details</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="exam_ref" string="ExamID" readonly="1"
+                    decoration-bf="1"/>
+                <field name="subject_id" widget="badge" optional="show"/>
+                <field name="type_of_exam" optional="show"/>
+                <field name="date" widget="remaining_days" optional="show"/>
+                <field name="teacher_id" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_exam_details_search" model="ir.ui.view">
+        <field name="name">exam.details.search</field>
+        <field name="model">exam.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Exams" name="type_of_exam"
+                    context="{'group_by': 'type_of_exam'}"/>
+                <searchpanel>
+                    <field name="subject_id" select="multi" enable_counters="1"
+                        icon="fa-solid fa-book"/>
+                    <field name="teacher_id" enable_counters="1"
+                        icon="fa-solid fa-user"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id = "view_exam_details_calendar"
+        model = "ir.ui.view">
+        <field name="name">exam.details.calendar</field>
+        <field name="model">exam.details</field>
+        <field name="arch" type="xml">
+            <calendar string="Exam Date" date_start="date" color="subject_id">
+                <field name="standard"/>
+                <field name="teacher_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_exam_details_form" model="ir.ui.view">
+        <field name="name">exam.details.form</field>
+        <field name="model">exam.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="type_of_exam" widget="statusbar" clickable="True"
+                        options="{'clickable':1}" statusbar_visible="1st_mid,2nd_mid,final,board"/>
+                </header>
+                <sheet>
+                    <notebook>
+                        <page string="Exam Details">
+                            <div class="oe_title" name="exam_title">
+                                <h2> <field name="exam_ref"/>
+                                </h2>
+                            </div>
+
+                            <group>
+                                <group>
+                                    <field name="subject_id"/>
+                                    <field name="date"/>
+                                </group>
+                                <group>
+                                    <field name="teacher_id"/>
+                                    <field name="standard"/>
+                                    <field name="teacher_phone"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_exam_details"
+        model="ir.actions.act_window">
+        <field name="name">Exam</field>
+        <field name="res_model">exam.details</field>
+        <field name="view_mode">tree,calendar,search,form</field>
+    </record>
+
+</odoo>

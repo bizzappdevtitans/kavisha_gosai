@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <data noupdate="1">
+<!--  Sequences for event.details  -->
+        <record id="seq_event_details" model="ir.sequence">
+            <field name="name">Event Details</field>
+            <field name="code">event.details</field>
+            <field name="prefix">EV</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+<!--  Sequences for exam.details  -->
+        <record id="seq_exam_details" model="ir.sequence">
+            <field name="name">Exam Details</field>
+            <field name="code">exam.details</field>
+            <field name="prefix">E</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+<!--  Sequences for principal.details  -->
+        <record id="seq_principal_details" model="ir.sequence">
+            <field name="name">Principal Details</field>
+            <field name="code">principal.details</field>
+            <field name="prefix">P</field>
+            <field name="padding">2</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+<!--  Sequences for result.details  -->
+        <record id="seq_result_details" model="ir.sequence">
+            <field name="name">Result Details</field>
+            <field name="code">result.details</field>
+            <field name="prefix">R</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+<!--  Sequences for student.details  -->
+        <record id="seq_student_details" model="ir.sequence">
+            <field name="name">Student Details</field>
+            <field name="code">student.details</field>
+            <field name="prefix">ST</field>
+            <field name="padding">2</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+<!--  Sequences for subject.details  -->
+        <record id="seq_subject_details" model="ir.sequence">
+            <field name="name">Subject Details</field>
+            <field name="code">subject.details</field>
+            <field name="prefix">SU</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+<!--  Sequences for teacher.details  -->
+        <record id="seq_teacher_details" model="ir.sequence">
+            <field name="name">Teacher Details</field>
+            <field name="code">teacher.details</field>
+            <field name="prefix">T</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+
+</odoo>

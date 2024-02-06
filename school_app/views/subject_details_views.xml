@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record id="view_subject_details_tree" model="ir.ui.view">
+        <field name="name">subject.details.tree</field>
+        <field name="model">subject.details</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="subject_ref" string="SubjectID" readonly="1"
+                    decoration-bf="1"/>
+                <field name="name" widget="badge" optional="show" string="SubjectName"/>
+                <field name="standard" optional="hide"/>
+                <field name="teacher_id" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_subject_details_search" model="ir.ui.view">
+        <field name="name">subject.details.search</field>
+        <field name="model">subject.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Standard" name="standard"
+                    context="{'group_by': 'standard'}"/>
+                <field name="name"/>
+                <searchpanel>
+                    <field name="teacher_id" enable_counters="1"
+                        icon="fa-solid fa-user"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_subject_details_form" model="ir.ui.view">
+        <field name="name">subject.details.form</field>
+        <field name="model">subject.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <notebook>
+                        <page string="Subject Information">
+                            <div class="oe_button_box" name="button_box">
+                                <button name="action_open_teacher_details" type="object" class="oe_stat_button" icon="fa-solid fa-user" attrs="{'invisible': [ ('teacher_count', '=', 0)]}">
+                                    <div class="o_stat_info">
+                                        <field name="teacher_count"
+                                        class="o_stat_value"/>
+                                        <span class="o_stat_text">SubjectTeacher</span>
+                                    </div>
+                                </button>
+                                 <button name="action_open_student_details" type="object" class="oe_stat_button" icon="fa-regular fa-users" attrs="{'invisible': [ ('student_count', '=', 0)]}">
+                                    <div class="o_stat_info">
+                                        <field name="student_count"
+                                        class="o_stat_value"/>
+                                        <span class="o_stat_text">Students</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="oe_title" name="subject_title">
+                                <h2><field name="subject_ref"/></h2>
+                            </div>
+                            <group>
+                                <field name="name"/>
+                                <field name="color" widget="color_picker"/>
+                                <field name="standard"/>
+                                <field name="teacher_id"/>
+                                <field name="exam_date"/>
+                                <field name="student_ids"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_subject_details"
+        model="ir.actions.act_window">
+        <field name="name">Subject</field>
+        <field name="res_model">subject.details</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

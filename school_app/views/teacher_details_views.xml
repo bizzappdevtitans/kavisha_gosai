@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record model="ir.actions.server" id="update_last_leave">
+       <field name="name">Update Last Leave Date</field>
+       <field name="model_id" ref="model_teacher_details"/>
+       <field name="binding_model_id" ref="model_teacher_details"/>
+       <field name="state">code</field>
+       <field name="code">
+           action = records.update_last_leave()
+       </field>
+    </record>
+
+    <record id = "view_teachers_details_kanban" model = "ir.ui.view">
+        <field name="name">teacher.details.kanban</field>
+        <field name="model">teacher.details</field>
+        <field name="arch" type="xml">
+            <kanban class="o_res_partner_kanban" default_group_by="state">
+                <field name="sequence" widget="handle" invisible="1"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{record.name.raw_value} oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanabn_details d-flex flex_column">
+                                <sheet>
+                                    <group name="group_top">
+                                        <group name="group_left">
+                                            <ul>
+                                                <li>
+                                                    <strong>
+                                                        TeacherID :<field name=
+                                                        "teacher_ref"/>
+                                                    </strong>
+                                                </li>
+                                                <li>
+                                                    Name : <field name="name"/>
+                                                </li>
+                                                <li>
+                                                    Contact Number :<field name="phonenumber" widget="phone"/>
+                                                </li>
+                                            </ul>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_teachers_details_tree" model="ir.ui.view">
+        <field name="name">teacher.details.tree</field>
+        <field name="model">teacher.details</field>
+        <field name="arch" type="xml">
+            <tree decoration-it="state in ['primary', 'secondary']"
+                decoration-bf="state=='higher_secondary'">
+                <field name="teacher_ref" string="TeacherID" readonly="1"
+                    decoration-bf="1"/>
+                <field name="name" optional="show"/>
+                <field name="phonenumber" widget="phone" optional="show"/>
+                <field name="age" optional="show"/>
+                <field name="state" optional="show"/>
+                <field name="subject_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="gender" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_teacher_details_graph" model="ir.ui.view">
+        <field name="name">teacher.details.graph </field>
+        <field name="model">teacher.details</field>
+        <field name="arch" type="xml">
+            <graph string = "Teachers Profile" type="bar">
+                <field name="state"/>
+                <field name="name"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_teachers_details_search" model="ir.ui.view">
+        <field name="name">teacher.details.search</field>
+        <field name="model">teacher.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Teacher Profile" name="state"
+                    context="{'group_by': 'state'}"/>
+                <filter string="Is Class Teacher" name="is_class_teacher"
+                    domain="[('is_class_teacher', '=',True)]"/>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_teachers_details_pivot" model="ir.ui.view">
+        <field name="name">teacher.details.pivot</field>
+        <field name="model">teacher.details</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="name" type="row"/>
+                <field name="salary" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_teachers_details_form" model="ir.ui.view">
+        <field name="name">teacher.details.form</field>
+        <field name="model">teacher.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="primary" string="Primary"
+                        type="object" help="Move Teacher to Primary Section" class="btn-dark"/>
+                    <button name="secondary" class="btn-info" string="Secondary"
+                        type="object" help="Move Teacher to Secondary Section"/>
+                    <button name="higher_secondary" class="btn-success"
+                        string="Higher Secondary" type="object"
+                        help="Move Teacher to Higher Secondary Section"/>
+                    <field name="state" widget="statusbar" statusbar_visible=
+                        "primary,secondary,higher_secondary"/>
+                </header>
+                <sheet>
+                    <notebook>
+                        <page string="Teacher Information">
+                            <div class="oe_button_box" name="button_box">
+                                <button name="action_open_student_details" type="object" class="oe_stat_button" icon="fa-duotone fa-users" attrs="{'invisible': [ ('student_count', '=', 0)]}">
+                                    <div class="o_stat_info">
+                                        <field name="student_count"
+                                        class="o_stat_value"/>
+                                        <span class="o_stat_text">Students</span>
+                                    </div>
+                                </button>
+                                <button name="action_open_subjects_details"
+                                type="object" class="oe_stat_button" icon="fa-regular fa-book" attrs="{'invisible':
+                                [ ('subjects_count', '=', 0)]}">
+                                    <div class="o_stat_info">
+                                        <field name="subjects_count"
+                                        class="o_stat_value"/>
+                                            <span class="o_stat_text">Subjects</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="oe_title" name="teacher_title">
+                                <h2> <field name="teacher_ref"/></h2>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="age"/>
+                                    <field name="color" widget="color_picker"/>
+                                    <field name="gender"/>
+                                    <field name="teachers_rollnumber"/>
+                                </group>
+                                <group>
+                                    <field name="phonenumber" widget="phone"/>
+                                    <field name="email" widget="email"/>
+                                    <field name="is_class_teacher"
+                                        widget="boolean_toggle" />
+                                    <field name="last_leave"/>
+                                    <field name="salary"/>
+                                    <field name="principal"/>
+                                </group>
+                                <group name="group_bottom" string="Work Organization">
+                                    <field name="working_hour"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Student Information">
+                            <notebook>
+                                <page>
+                                    <field name="student_ids">
+                                        <tree>
+                                            <field name="student_ref"/>
+                                            <field name="subject_ids"/>
+                                            <field name="first_name"/>
+                                            <field name="current_standard"/>
+                                            <field name="percentage"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                           </notebook>
+                        </page>
+                        <page string="Subject Information">
+                            <notebook>
+                                <page>
+                                    <field name="subject_ids">
+                                        <tree>
+                                            <field name="subject_ref"/>
+                                            <field name="name"/>
+                                        </tree>
+                                        <form>
+                                            <group string="Teacher">
+                                                <field name="teacher_id"/>
+                                            </group>
+                                            <group string="Subjects">
+                                                <field name="name"/>
+                                                <field name="standard"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </page>
+                        <page string="ExamInformation">
+                            <field name="exam_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+   <record id="action_teacher_details"
+        model="ir.actions.act_window">
+        <field name="name">Teacher</field>
+        <field name="res_model">teacher.details</field>
+        <field name="view_mode">kanban,tree,pivot,search,graph,form</field>
+    </record>
+
+</odoo>
